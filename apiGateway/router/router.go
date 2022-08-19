@@ -12,8 +12,9 @@ func HandleRequests() {
 	router := mux.NewRouter()
 
 	// Ad routes
-	router.HandleFunc("/api/ads", handlers.GetAllAds).Methods("GET")
+	router.HandleFunc("/api/allAds", handlers.GetAllAds).Methods("GET")
 	router.HandleFunc("/api/ads/new", handlers.CreateAd).Methods("POST")
+	router.HandleFunc("/api/ads", handlers.GetAdPage).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

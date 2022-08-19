@@ -1,10 +1,12 @@
-import Container from "react-bootstrap/esm/Container";
-
 const Footer = () => {
     return ( 
-        <Container>
-            <div>footer</div>
-        </Container>
+        <div style={{backgroundColor : "blanchedalmond"}}>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+        </div>
     );
 }
  

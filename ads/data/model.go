@@ -36,9 +36,6 @@ const (
 type Ad struct {
 	gorm.Model
 
-	Description  string
-	AskingPrice  float32 `gorm:"min:0.0"` //in euros
-	Mileage      uint32
 	Manufacturer string
 	ModelName    string
 	ModelYear    uint16
@@ -46,20 +43,26 @@ type Ad struct {
 	Drivetrain   Drivetrain
 	FuelType     FuelType
 	Body         BodyType
+
+	Description string
+	AskingPrice float32 `gorm:"min:0.0"` //in euros
+	Mileage     uint32
 }
 
 type AdDTO struct {
-	Id           uint    `json:"id"`
-	Description  string  `json:"description"`
-	AskingPrice  float32 `json:"price"`
-	Mileage      uint32  `json:"mileage"`
-	Manufacturer string  `json:"manufacturer"`
-	ModelName    string  `json:"modelName"`
-	ModelYear    uint16  `json:"year"`
-	EngineVolume uint16  `json:"volume"`
-	Drivetrain   string  `json:"drivetrain"`
-	FuelType     string  `json:"fuel"`
-	Body         string  `json:"body"`
+	Id uint `json:"id"`
+
+	Manufacturer string `json:"manufacturer"`
+	ModelName    string `json:"modelName"`
+	ModelYear    uint16 `json:"year"`
+	EngineVolume uint16 `json:"volume"`
+	Drivetrain   string `json:"drivetrain"`
+	FuelType     string `json:"fuel"`
+	Body         string `json:"body"`
+
+	Description string  `json:"description"`
+	AskingPrice float32 `json:"price"`
+	Mileage     uint32  `json:"mileage"`
 }
 
 func DTOtoAd(dto AdDTO) Ad {

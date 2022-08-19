@@ -26,6 +26,14 @@ func GetAllAds(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ads)
 }
 
+func GetAdPage(w http.ResponseWriter, r *http.Request) {
+
+	ads := data.FindAdsPage(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(ads)
+}
+
 func GetOneAd(w http.ResponseWriter, r *http.Request) {
 
 	pathVars := mux.Vars(r)
