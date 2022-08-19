@@ -10,18 +10,21 @@ const AllAds = () => {
 
     const [ads, setAds] = useState([])
 
-    const [pageNumbers, setPageNumbers] = useState([1,2,3,4,5,6,7,8,9,10])
+    const [pageNumbers, setPageNumbers] = useState([])
+
+    const [totalPages, setTotalPages] = useState([])
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     const getPage = (pageNr) => {
         setSearchParams({page: String(pageNr)});
-        AdService.getAdsPage(setAds, pageNr)
-        console.log(ads);
+        AdService.getAdsPage(setAds, pageNr);
     }
 
     useEffect(() => {
         AdService.getAdsPage(setAds, 0)
+        AdService.getTotalPages(setTotalPages)
+        setPageNumbers(Array(totalPages).fill().map((d, i) => i + 1))
     }, [])
 
     return (  

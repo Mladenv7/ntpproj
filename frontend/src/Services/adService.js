@@ -15,6 +15,14 @@ const AdService = {
             setAds(responseJson)
         })
     },
+
+    getTotalPages : (setTotalPages) => {
+        fetch('http://localhost:8081/api/ads/totalPages')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setTotalPages(responseJson)
+        })
+    },
 }
 
 export default AdService

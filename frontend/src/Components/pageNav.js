@@ -10,7 +10,7 @@ const PageNav = ({pageNumbers, sendActiveCallback}) => {
     const [lastVisible, setLastVisible] = useState(6)
 
     useEffect(() => {
-        sendActiveCallback(activePage)
+        sendActiveCallback(activePage+1)
     },[activePage])
 
     return (  

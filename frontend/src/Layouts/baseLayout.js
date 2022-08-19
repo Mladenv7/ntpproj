@@ -5,7 +5,7 @@ import Body from "../Components/body";
 const BaseLayout = () => {
     return (  
         <>
-        <Header/> 
+        <Header/> <br></br>
         <Body/>
         <Footer/>
         </>

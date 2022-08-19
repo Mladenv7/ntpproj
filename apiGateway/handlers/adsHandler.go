@@ -1,18 +1,53 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	util "github.com/Mladenv7/ntpproj/apiGateway/util"
+	"github.com/gorilla/mux"
 )
 
-func GetAllAds(w http.ResponseWriter, r *http.Request) {
+func GetAdsPage(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 
 	page := r.URL.Query().Get("page")
 	//size := r.URL.Query().Get("size")
 
 	response, err := http.Get(util.AdServiceBasePath.Next().Host + "?page=" + page)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetTotalPages(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/totalPages")
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetSingleAd(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+
+	pathVars := mux.Vars(r)
+
+	id, ok := pathVars["id"]
+	if !ok {
+		fmt.Println("id is missing in parameters")
+	}
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/" + id)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)
