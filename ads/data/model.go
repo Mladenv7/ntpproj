@@ -65,6 +65,15 @@ type AdDTO struct {
 	Mileage     uint32  `json:"mileage"`
 }
 
+type SearchDTO struct {
+	PriceFrom   float32
+	PriceTo     float32
+	MileageFrom uint32
+	MileageTo   uint32
+	Description string
+	Sort        string
+}
+
 func DTOtoAd(dto AdDTO) Ad {
 	drivetrain := dto.Drivetrain
 	fuel := dto.FuelType

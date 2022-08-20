@@ -13,9 +13,9 @@ func HandleRequests() {
 
 	// Ad routes
 	//router.HandleFunc("/api/allAds", handlers.GetAllAds).Methods("GET")
-	router.HandleFunc("/api/ads/new", handlers.CreateAd).Methods("POST")
-	router.HandleFunc("/api/ads", handlers.GetAdsPage).Methods("GET")
-	router.HandleFunc("/api/ads/totalPages", handlers.GetTotalPages).Methods("GET")
+	router.HandleFunc("/api/ads/new", handlers.CreateAd).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads", handlers.GetAdsPage).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/totalPages", handlers.GetTotalPages).Methods("POST", "OPTIONS")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

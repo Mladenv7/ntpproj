@@ -1,6 +1,7 @@
 package data
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -41,13 +42,26 @@ func FindAllAds() ([]Ad, int32) {
 	return allAds, adCount
 }
 
-func FindAdsPage(r *http.Request) []Ad {
+func FindAdsPage(r *http.Request) ([]Ad, int32) {
+
+	var searchParams SearchDTO
+
+	json.NewDecoder(r.Body).Decode(&searchParams)
 
 	var adsPage []Ad
+	var adCount int32
 
-	Db.Scopes(Paginate(r)).Find(&adsPage)
+	sort := searchParams.Sort
 
-	return adsPage
+	if sort == "" {
+		sort = "id"
+	}
+
+	Db.Scopes(Paginate(r)).Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Order(sort).Find(&adsPage)
+
+	Db.Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Select("COUNT(*)").Row().Scan(&adCount)
+
+	return adsPage, adCount
 }
 
 func FindAdById(id uint64) Ad {
