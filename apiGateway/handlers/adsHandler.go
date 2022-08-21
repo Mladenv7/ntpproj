@@ -8,22 +8,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// func GetAdsPage(w http.ResponseWriter, r *http.Request) {
-// 	util.SetupResponse(&w, r)
-
-// 	page := r.URL.Query().Get("page")
-// 	//size := r.URL.Query().Get("size")
-
-// 	response, err := http.Get(util.AdServiceBasePath.Next().Host + "?page=" + page)
-
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusGatewayTimeout)
-// 		return
-// 	}
-
-// 	util.DelegateResponse(response, w)
-// }
-
 func GetAdsPage(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {

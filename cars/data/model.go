@@ -1,5 +1,9 @@
 package data
 
+import (
+	"github.com/jinzhu/gorm"
+)
+
 type Drivetrain string
 
 const (
@@ -30,6 +34,8 @@ const (
 )
 
 type Car struct {
+	gorm.Model
+
 	Manufacturer string
 	ModelName    string
 	ModelYear    uint16

@@ -17,5 +17,8 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads", handlers.GetAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/totalPages", handlers.GetTotalPages).Methods("POST", "OPTIONS")
 
+	// Car routes
+	router.HandleFunc("/api/cars/certain", handlers.GetCertainCars).Methods("POST", "OPTIONS")
+
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

@@ -7,6 +7,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+
+	apiGatewayData "github.com/Mladenv7/ntpproj/apiGateway/data"
 )
 
 var Db *gorm.DB
@@ -44,7 +46,7 @@ func FindAllAds() ([]Ad, int32) {
 
 func FindAdsPage(r *http.Request) ([]Ad, int32) {
 
-	var searchParams SearchDTO
+	var searchParams apiGatewayData.SearchDTO
 
 	json.NewDecoder(r.Body).Decode(&searchParams)
 

@@ -5,7 +5,7 @@ import SingleAd from "./ads/singleAd";
 
 const Body = () => {
     return ( 
-        <Container style={{height: "70vh"}}>
+        <Container style={{height: "70vh", overflowY: "scroll"}}>
             <Routes>
                 <Route path='ads' element={<AllAds/>}/>
                 <Route path='ads/:id' element={<SingleAd/>}/>
