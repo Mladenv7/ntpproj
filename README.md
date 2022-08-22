@@ -32,5 +32,5 @@ Mikroservis za oglase - upravlja oglasima - Go, PostgreSQL baza<br>
 Mikroservis za automobile - upravlja podacima o automobilima - Go, PostgreSQL baza<br>
 Mikroservis za e-mail - upravlja e-mail notifikacijama - Go, PostgreSQL baza<br>
 Mikroservis za statistiku - dobavlja različite izveštaje, poput top 10 modela - Rust, PostgreSQL baza<br>
-Mikroservis za komentare i ocene - upravlja komentarima i ocenama - Rust, PostgreSQL baza<br>
+Mikroservis za komentare i ocene - upravlja komentarima i ocenama - Go, PostgreSQL baza<br>
 Klijentska aplikacija koja komunicira sa API gateway-om - React
