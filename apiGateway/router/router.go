@@ -20,5 +20,11 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/{id}", handlers.GetSingleAd).Methods("GET")
 	router.HandleFunc("/api/ads/delete/{id}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
 
+	// Comment routes
+	router.HandleFunc("/api/comments/new", handlers.CreateComment).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/comments/update", handlers.UpdateComment).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/comments/ofAd/{id}", handlers.GetCommentsForAd).Methods("GET")
+	router.HandleFunc("/api/comments/delete/{id}", handlers.DeleteComment).Methods("DELETE", "OPTIONS")
+
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

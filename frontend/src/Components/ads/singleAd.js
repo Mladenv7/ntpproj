@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import AdService from "../../Services/adService";
+import CommentsOfAd from "../comments/commentsOfAd";
 
 const SingleAd = () => {
 
@@ -22,6 +23,8 @@ const SingleAd = () => {
     const [modelYear, setModelYear] = useState(0)
     
     const navigate = useNavigate()
+
+    let pathTokens = window.location.pathname.split("/")
 
     const sendUpdate = () => {
 
@@ -57,13 +60,12 @@ const SingleAd = () => {
     }
 
     useEffect(() => {
-        let pathTokens = window.location.pathname.split("/")
         AdService.getSingleAd(pathTokens[2], setAdData)
     }, [])
     
     
     return (  
-        <div name="adData">
+        <div name="adData" style={{height: "60vh", overflowY : "scroll", overflowX: "hidden"}}>
             <h2>{adData.Manufacturer+" "+adData.ModelName}</h2>
             <Container>
                 <Row>
@@ -120,6 +122,9 @@ const SingleAd = () => {
                     </Col>
                 </Row>
             </Container>
+            <br></br>
+            <h3>Comments</h3>
+            <CommentsOfAd  adId={pathTokens[2]}/>
         </div>
     );
 }

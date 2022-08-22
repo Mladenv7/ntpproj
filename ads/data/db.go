@@ -92,7 +92,7 @@ func Delete(id uint64) error {
 	Db.First(&ad, id)
 
 	if ad.ID == 0 {
-		return errors.New(fmt.Sprint("Ad with ID %d does not exist", ad.ID))
+		return errors.New(fmt.Sprintf("Ad with ID %d does not exist", id))
 	}
 
 	Db.Delete(&ad)
