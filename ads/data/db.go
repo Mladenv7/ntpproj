@@ -2,6 +2,8 @@ package data
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -76,4 +78,24 @@ func Save(ad Ad) (uint, error) {
 	result := Db.Create(&ad)
 
 	return ad.ID, result.Error
+}
+
+func Update(ad Ad) (uint, error) {
+	result := Db.Save(&ad)
+
+	return ad.ID, result.Error
+}
+
+func Delete(id uint64) error {
+	var ad Ad
+
+	Db.First(&ad, id)
+
+	if ad.ID == 0 {
+		return errors.New(fmt.Sprint("Ad with ID %d does not exist", ad.ID))
+	}
+
+	Db.Delete(&ad)
+
+	return nil
 }

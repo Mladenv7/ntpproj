@@ -84,3 +84,37 @@ func SaveOneAd(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(id)
 	}
 }
+
+func UpdateAd(w http.ResponseWriter, r *http.Request) {
+
+	var ad data.Ad
+
+	json.NewDecoder(r.Body).Decode(&ad)
+
+	id, err := data.Update(ad)
+
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(err.Error())
+	} else {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(id)
+	}
+}
+
+func DeleteAd(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+	adId, _ := strconv.ParseUint(params["id"], 10, 64)
+
+	err := data.Delete(adId)
+
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err.Error())
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}

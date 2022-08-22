@@ -14,11 +14,11 @@ func HandleRequests() {
 	// Ad routes
 	//router.HandleFunc("/api/allAds", handlers.GetAllAds).Methods("GET")
 	router.HandleFunc("/api/ads/new", handlers.CreateAd).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/update", handlers.UpdateAd).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads", handlers.GetAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/totalPages", handlers.GetTotalPages).Methods("POST", "OPTIONS")
-
-	// Car routes
-	router.HandleFunc("/api/cars/certain", handlers.GetCertainCars).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/{id}", handlers.GetSingleAd).Methods("GET")
+	router.HandleFunc("/api/ads/delete/{id}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

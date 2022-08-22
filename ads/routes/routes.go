@@ -16,7 +16,9 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads", handler.GetAdPage).Methods("POST")
 	router.HandleFunc("/api/ads/totalPages", handler.GetTotalPages).Methods("POST")
 	router.HandleFunc("/api/ads/{id}", handler.GetOneAd).Methods("GET")
+	router.HandleFunc("/api/ads/delete/{id}", handler.DeleteAd).Methods("DELETE")
 	router.HandleFunc("/api/ads/new", handler.SaveOneAd).Methods("POST")
+	router.HandleFunc("/api/ads/update", handler.UpdateAd).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

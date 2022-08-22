@@ -1,25 +1,26 @@
 import { Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const AdItem = ({adData, carData}) => {
+const AdItem = ({adData}) => {
     return (  
         <article>
-            <Row><Col><h4>{carData.Manufacturer+" "+carData.ModelName}</h4></Col></Row>
+            <Row><Col><h4><Link to={"/ads/"+adData.ID}>{adData.Manufacturer+" "+adData.ModelName}</Link></h4></Col></Row>
             <Row>
             <Col>
                 {/* picture goes here */}
             </Col>
             <Col>
-            <p>Model year {carData.ModelYear}</p>
-            <p>Engine volume {carData.EngineVolume}</p>
-            <p>Drivetrain {carData.Drivetrain}</p>
-            <p>Fuel {carData.FuelType}</p>
-            <p>Body {carData.Body}</p>
+            <p><b>Model year</b> {adData.ModelYear}</p>
+            <p><b>Engine volume</b> {adData.EngineVolume}cc</p>
+            <p><b>Drivetrain</b> {adData.Drivetrain}</p>
+            <p><b>Fuel</b> {adData.FuelType}</p>
+            <p><b>Body</b> {adData.Body}</p>
               
             </Col>
             <Col>
                 <h4>{adData.AskingPrice.toFixed(2)} €</h4>
-                <p>Mileage: {adData.Mileage} km</p>
-                <p>{adData.Description}</p>
+                <p><b>Mileage</b> {adData.Mileage} km</p>
+                <p style={{borderStyle: "solid", borderWidth: "thin", height: "60%"}}>{adData.Description}</p>
             </Col>
             </Row>
         </article>

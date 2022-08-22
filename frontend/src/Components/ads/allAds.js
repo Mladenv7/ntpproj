@@ -5,14 +5,11 @@ import PageNav from '../pageNav'
 import AdItem from './adItem'
 import { useSearchParams } from 'react-router-dom';
 import AdSearchForm from './adSearchForm'
-import CarService from '../../Services/carService'
   
 
 const AllAds = () => {
 
     const [ads, setAds] = useState([])
-
-    const [cars, setCars] = useState([])
 
     const [pageNumbers, setPageNumbers] = useState([])
 
@@ -30,7 +27,7 @@ const AllAds = () => {
 
     const getPage = (pageNr) => {
         setUrlParams({page: String(pageNr)});
-        AdService.getAdsPage(setAds, setCars, pageNr, requestOptions)
+        AdService.getAdsPage(setAds, pageNr, requestOptions)
     }
 
     const getSearchResults = (searchData) => {
@@ -41,27 +38,23 @@ const AllAds = () => {
         }
         setBodyParams(searchData)
 
-        AdService.getAdsPage(setAds, setCars, 0, requestOptions)
+        AdService.getAdsPage(setAds, 0, requestOptions)
         AdService.getTotalPages(setTotalPages, setPageNumbers, requestOptions)
     }
 
     useEffect(() => {
-        AdService.getAdsPage(setAds, setCars, 0,  requestOptions)
+        AdService.getAdsPage(setAds, 0,  requestOptions)
         AdService.getTotalPages(setTotalPages, setPageNumbers,  requestOptions)
     }, [])
 
     return (  
-        <div style={{height: "60vh"}}>
+        <div style={{height: "60vh", overflowY: "scroll", overflowX: "hidden"}}>
         
             <Row>
                 <Col xs={9}>
                 <div name="adArticles"  >
                     {ads.map(ad => {
-                        if(cars.length > 0){
-                            let car = cars.find(car => car.ID === ad.ID)
-                            return <AdItem key={ad.ID} adData={ad} carData={car}/>
-                        }
-                        return <AdItem key={ad.ID} adData={ad} carData={{}}/>
+                        return <AdItem key={ad.ID} adData={ad}/>
                     })}
                 </div>
                 </Col>
@@ -69,7 +62,7 @@ const AllAds = () => {
                     <AdSearchForm searchDataCallback={getSearchResults}/>
                 </Col>
             </Row>
-        
+        <br></br>
         <Container>
             <Row>
                 <Col/>
