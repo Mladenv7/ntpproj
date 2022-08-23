@@ -41,7 +41,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func GetLoggedIn(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 
-	response, err := http.Get(util.UserServiceBasePath.Next().Host + "/loggedIn")
+	client := http.Client{}
+	request, err := http.NewRequest("GET", util.UserServiceBasePath.Next().Host+"/loggedIn", nil)
+	request.Header.Set("Authorization", r.Header.Values("Authorization")[0])
+
+	response, err := client.Do(request)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)

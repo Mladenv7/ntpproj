@@ -82,7 +82,6 @@ func GetTokenFromRequest(r *http.Request) (*jwt.Token, error) {
 }
 
 func GetLoggedIn(w http.ResponseWriter, r *http.Request) {
-
 	token, _ := GetTokenFromRequest(r)
 
 	claims, _ := token.Claims.(jwt.MapClaims)
