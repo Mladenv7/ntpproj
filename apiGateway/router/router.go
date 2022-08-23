@@ -26,5 +26,10 @@ func HandleRequests() {
 	router.HandleFunc("/api/comments/ofAd/{id}", handlers.GetCommentsForAd).Methods("GET")
 	router.HandleFunc("/api/comments/delete/{id}", handlers.DeleteComment).Methods("DELETE", "OPTIONS")
 
+	// User routes
+	router.HandleFunc("/api/users/register", handlers.Register).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/login", handlers.Login).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/loggedIn", handlers.GetLoggedIn).Methods("GET")
+
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

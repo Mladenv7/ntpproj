@@ -16,6 +16,10 @@ var CommentServiceBasePath, _ = roundRobinScheduler.New(
 	&url.URL{Host: "http://localhost:8082/api/comments"},
 )
 
+var UserServiceBasePath, _ = roundRobinScheduler.New(
+	&url.URL{Host: "http://localhost:8083/api/users"},
+)
+
 func DelegateResponse(response *http.Response, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", response.Header.Get("Content-Type"))
 	w.Header().Set("Content-Length", response.Header.Get("Content-Length"))
