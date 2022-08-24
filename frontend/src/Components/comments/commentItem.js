@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import CommentService from "../../Services/commentService";
 
 const CommentItem = ({commentData}) => {
@@ -28,6 +28,7 @@ const CommentItem = ({commentData}) => {
 
     return (  
         <div name="commentItem">
+            <Container>
             <Row>
                 <Col>
                 <p>By {commentData.AuthorUsername}</p>
@@ -37,11 +38,13 @@ const CommentItem = ({commentData}) => {
                 </Col>
                 <Col>
                 {commentData.Reported ? 
-                    <Button variant="danger" onClick={() => {deleteComment()}}>Delete</Button>
-                : <Button variant="warning" onClick={() => {reportComment()}}>Report</Button>}
+                    <Button variant="danger" className="float-right" onClick={() => {deleteComment()}}>Delete</Button>
+                : <Button variant="warning" className="float-right" onClick={() => {reportComment()}}>Report</Button>}
                 </Col>
             </Row>
-            <textarea defaultValue={commentData.Message} disabled style={{width : "95%", resize : "none"}}></textarea>
+            </Container>
+            
+            <textarea defaultValue={commentData.Message} disabled style={{width : "99%", resize : "none"}}></textarea>
         </div>
     );
 }

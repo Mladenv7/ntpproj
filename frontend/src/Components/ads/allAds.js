@@ -5,6 +5,7 @@ import PageNav from '../pageNav'
 import AdItem from './adItem'
 import { useSearchParams } from 'react-router-dom';
 import AdSearchForm from './adSearchForm'
+import UserService from '../../Services/userService'
   
 
 const AllAds = () => {
@@ -43,6 +44,7 @@ const AllAds = () => {
     }
 
     useEffect(() => {
+        console.log(UserService.getLoggedIn());
         AdService.getAdsPage(setAds, 0,  requestOptions)
         AdService.getTotalPages(setTotalPages, setPageNumbers,  requestOptions)
     }, [])

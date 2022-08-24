@@ -40,6 +40,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func GetLoggedIn(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
 
 	client := http.Client{}
 	request, err := http.NewRequest("GET", util.UserServiceBasePath.Next().Host+"/loggedIn", nil)

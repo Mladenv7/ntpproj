@@ -32,15 +32,13 @@ const NewComment = ({adId}) => {
                         <Form.Label htmlFor="messageInput">New comment</Form.Label>
                         </Col>
                         <Col>
-                        <Form.Control onChange={(event) => {setRating(event.target.value)}} as={"input"} type="number" min={1} max={5} placeholder="rating"></Form.Control>
-                        </Col>
-                        <Col>
+                        <Form.Control className="float-right" style={{width : "100px", marginRight: "8pt"}} onChange={(event) => {setRating(event.target.value)}} as={"input"} type="number" min={1} max={5} placeholder="rating"></Form.Control>
                         </Col>
                     </Row>
                     <Row>
                         
                         <Col>
-                        <Form.Control id="messageInput" onChange={(event) => {setMessage(event.target.value)}} as={"textarea"} style={{width : "95%", resize : "none"}}></Form.Control>
+                        <Form.Control id="messageInput" onChange={(event) => {setMessage(event.target.value)}} as={"textarea"} style={{width : "99%", resize : "none"}}></Form.Control>
                         </Col>
                     </Row><br></br>
                     <Row>

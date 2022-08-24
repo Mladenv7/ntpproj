@@ -82,11 +82,17 @@ func GetTokenFromRequest(r *http.Request) (*jwt.Token, error) {
 }
 
 func GetLoggedIn(w http.ResponseWriter, r *http.Request) {
-	token, _ := GetTokenFromRequest(r)
+	token, err := GetTokenFromRequest(r)
+
+	if !token.Valid || err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	claims, _ := token.Claims.(jwt.MapClaims)
 
 	user := data.FindByEmail(claims["email"].(string))
+	user.Password = ""
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(user)
