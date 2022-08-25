@@ -26,7 +26,11 @@ const UserService = {
 
     getLoggedIn : () => {
         return JSON.parse(localStorage.getItem("loggedIn"))
-    }
+    },
+
+    logout: () => {
+        localStorage.removeItem("loggedIn")
+    },
 }
 
 export default UserService

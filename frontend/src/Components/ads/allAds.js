@@ -44,7 +44,6 @@ const AllAds = () => {
     }
 
     useEffect(() => {
-        console.log(UserService.getLoggedIn());
         AdService.getAdsPage(setAds, 0,  requestOptions)
         AdService.getTotalPages(setTotalPages, setPageNumbers,  requestOptions)
     }, [])

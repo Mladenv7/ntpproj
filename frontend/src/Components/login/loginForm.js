@@ -29,7 +29,9 @@ const LoginForm = () => {
     useEffect(() => {
         if(token && token !== "Wrong credentials"){
             UserService.getUserFromToken(token)
-            navigate("/ads")
+            setTimeout(() => {
+                navigate("/ads")
+            }, 1000);
         }
     }, [token])
     

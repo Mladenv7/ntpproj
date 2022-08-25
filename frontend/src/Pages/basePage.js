@@ -1,8 +1,13 @@
+import UserObserver from "../Components/userObserver";
 import BaseLayout from "../Layouts/baseLayout";
 
 const BasePage = () => {
-    return (  
+    return (
+        <>
+        <UserObserver/>
         <BaseLayout/>
+        </>  
+        
     );
 }
  
