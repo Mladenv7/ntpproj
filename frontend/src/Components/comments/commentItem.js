@@ -1,10 +1,19 @@
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import CommentService from "../../Services/commentService";
 
-const CommentItem = ({commentData}) => {
+const CommentItem = ({comment, user}) => {
+
+    const [commentData, setCommentData] = useState(comment)
+
+    useEffect(() => {
+      setCommentData(commentData)
+    }, [commentData])
+    
 
     const reportComment = () => {
         commentData.Reported = true
+        setCommentData(JSON.parse(JSON.stringify(commentData)))
 
         let requestOptions = {
             method: 'POST',
@@ -37,9 +46,12 @@ const CommentItem = ({commentData}) => {
                 <p>Rating: {commentData.Rating}</p>
                 </Col>
                 <Col>
-                {commentData.Reported ? 
+                {commentData.Reported && user.Role === 'Administrator' ? 
                     <Button variant="danger" className="float-right" onClick={() => {deleteComment()}}>Delete</Button>
-                : <Button variant="warning" className="float-right" onClick={() => {reportComment()}}>Report</Button>}
+                : ''}
+                {!commentData.Reported && user.Role === 'Standard' ? 
+                    <Button variant="warning" className="float-right" onClick={() => {reportComment()}}>Report</Button>
+                : <p style={{color:"red"}}>This comment has been reported.</p>}
                 </Col>
             </Row>
             </Container>

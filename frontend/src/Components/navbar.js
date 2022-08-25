@@ -27,7 +27,13 @@ const AppNavbar = () => {
         <Container>
           <Nav className="me-1">
             <Nav.Link href="/ads">All ads</Nav.Link>
-            <Nav.Link href="/newAd">Create an ad</Nav.Link>
+            {user.Role === "Standard" ? <Nav.Link href="/newAd">Create an ad</Nav.Link> : ""}
+            {user.Role === "Standard" ? <Nav.Link href="/myAds">My ads</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/newAds">New ads</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/reportedAds">Reported ads</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/reportedComments">Reported comments</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/boostRequests">Boost requests</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/reports">Reports</Nav.Link> : ""}
           </Nav>
           <div className='d-flex'>
           <Nav.Link disabled style={{color : "white"}}>{user.Username}</Nav.Link>

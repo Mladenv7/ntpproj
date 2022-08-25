@@ -51,6 +51,16 @@ var (
 			Active:   true,
 			Role:     Standard,
 		},
+		{
+			Username: "UserZack",
+			Name:     "Zack",
+			Surname:  "Doe",
+			Password: "$2a$12$AHRw1nm7olpgqcY/zgD1CezUSpfWrLmDvs5bGQ1JtQltnDC7CyKTy",
+			Email:    "email5@maildrop.cc",
+			Banned:   false,
+			Active:   true,
+			Role:     Standard,
+		},
 	}
 )
 

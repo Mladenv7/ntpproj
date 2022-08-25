@@ -84,6 +84,29 @@ var (
 			Body:         Hatchback,
 		},
 	}
+
+	mailingEntries = []MailingListEntry{
+		{
+			AdId: 1,
+			Mail: "email5@maildrop.cc",
+		},
+		{
+			AdId: 1,
+			Mail: "email2@maildrop.cc",
+		},
+		{
+			AdId: 2,
+			Mail: "email3@maildrop.cc",
+		},
+		{
+			AdId: 3,
+			Mail: "email4@maildrop.cc",
+		},
+		{
+			AdId: 3,
+			Mail: "email5@maildrop.cc",
+		},
+	}
 )
 
 func InitializeData() {
@@ -100,8 +123,14 @@ func InitializeData() {
 	Db.DropTable("ads")
 	Db.AutoMigrate(&Ad{})
 
+	Db.DropTable("mailing_list_entries")
+	Db.AutoMigrate(&MailingListEntry{})
+
 	for _, ad := range ads {
 		Db.Create(&ad)
 	}
 
+	for _, entry := range mailingEntries {
+		Db.Create(&entry)
+	}
 }

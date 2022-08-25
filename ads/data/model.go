@@ -39,6 +39,7 @@ type Ad struct {
 	Description string
 	AskingPrice float32 `gorm:"min:0.0"` //in euros
 	Mileage     uint32
+	AuthorId    uint64
 
 	Manufacturer string
 	ModelName    string
@@ -48,6 +49,14 @@ type Ad struct {
 	FuelType     FuelType
 	Body         BodyType
 
-	Boosted bool
-	Active  bool
+	Reported bool
+	Boosted  bool
+	Active   bool
+}
+
+type MailingListEntry struct {
+	gorm.Model
+
+	AdId uint64
+	Mail string
 }

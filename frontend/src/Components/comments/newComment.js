@@ -2,24 +2,31 @@ import { useState } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
 import CommentService from "../../Services/commentService";
 
-const NewComment = ({adId}) => {
+const NewComment = ({adId, callback, user}) => {
 
     const [message, setMessage] = useState("")
 
     const [rating, setRating] = useState(1)
 
     const sendComment = () => {
+        
+        let newComment = {
+            ID: 0,
+            Message: message,
+            Rating: Number(rating),
+            AdId: Number(adId),
+            AuthorId: user.ID,
+        }
+
         let requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                Message: message,
-                Rating: Number(rating),
-                AdId: Number(adId),
-            })
+            body: JSON.stringify(newComment)
         }
 
         CommentService.sendComment(requestOptions)
+        callback(newComment)
+        setMessage("")
     }
 
     return (  
