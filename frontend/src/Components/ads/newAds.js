@@ -5,9 +5,8 @@ import PageNav from '../pageNav'
 import AdItem from './adItem'
 import { useSearchParams } from 'react-router-dom';
 import AdSearchForm from './adSearchForm'
-  
 
-const AllAds = () => {
+const NewAds = () => {
 
     const [ads, setAds] = useState([])
 
@@ -27,7 +26,7 @@ const AllAds = () => {
 
     const getPage = (pageNr) => {
         setUrlParams({page: String(pageNr)});
-        AdService.getAdsPage(setAds, pageNr, requestOptions)
+        AdService.getInactiveAdsPage(setAds, pageNr, requestOptions)
     }
 
     const getSearchResults = (searchData) => {
@@ -38,44 +37,44 @@ const AllAds = () => {
         }
         setBodyParams(searchData)
 
-        AdService.getAdsPage(setAds, 0, requestOptions)
-        AdService.getTotalPages(setTotalPages, setPageNumbers, requestOptions)
+        AdService.getInactiveAdsPage(setAds, 0, requestOptions)
+        AdService.getInactiveTotalPages(setTotalPages, setPageNumbers, requestOptions)
     }
 
     useEffect(() => {
-        AdService.getAdsPage(setAds, 0,  requestOptions)
-        AdService.getTotalPages(setTotalPages, setPageNumbers,  requestOptions)
+        AdService.getInactiveAdsPage(setAds, 0,  requestOptions)
+        AdService.getInactiveTotalPages(setTotalPages, setPageNumbers,  requestOptions)
     }, [])
 
     return (  
         <div style={{height: "60vh", overflowY: "scroll", overflowX: "hidden"}}>
         
-            <Row>
-                <Col xs={9}>
-                <div name="adArticles"  >
-                    {ads.map(ad => {
-                        return <AdItem key={ad.ID} adData={ad}/>
-                    })}
-                </div>
-                </Col>
-                <Col>
-                    <AdSearchForm searchDataCallback={getSearchResults}/>
-                </Col>
-            </Row>
-        <br></br>
-        <Container>
-            <Row>
-                <Col/>
-                <Col>
-                    {totalPages > 1 ? 
-                        <PageNav pageNumbers={pageNumbers} sendActiveCallback={getPage}/> : ""
-                    }
-                </Col>
-                <Col/>
-            </Row>
-        </Container>
-        </div>
+        <Row>
+            <Col xs={9}>
+            <div name="adArticles"  >
+                {ads.map(ad => {
+                    return <AdItem key={ad.ID} adData={ad}/>
+                })}
+            </div>
+            </Col>
+            <Col>
+                <AdSearchForm searchDataCallback={getSearchResults}/>
+            </Col>
+        </Row>
+    <br></br>
+    <Container>
+        <Row>
+            <Col/>
+            <Col>
+                {totalPages > 1 ? 
+                    <PageNav pageNumbers={pageNumbers} sendActiveCallback={getPage}/> : ""
+                }
+            </Col>
+            <Col/>
+        </Row>
+    </Container>
+    </div>
     );
 }
  
-export default AllAds;
+export default NewAds;

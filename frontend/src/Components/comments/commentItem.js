@@ -25,6 +25,9 @@ const CommentItem = ({comment, user}) => {
     }
 
     const deleteComment = () => {
+        commentData.DeletedAt = true
+        setCommentData(JSON.parse(JSON.stringify(commentData)))
+
         let requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -36,6 +39,8 @@ const CommentItem = ({comment, user}) => {
 
 
     return (  
+        <>
+        {!commentData.DeletedAt ?
         <div name="commentItem">
             <Container>
             <Row>
@@ -46,7 +51,7 @@ const CommentItem = ({comment, user}) => {
                 <p>Rating: {commentData.Rating}</p>
                 </Col>
                 <Col>
-                {commentData.Reported && user.Role === 'Administrator' ? 
+                {commentData.Reported && !commentData.DeletedAt && user.Role === 'Administrator' ? 
                     <Button variant="danger" className="float-right" onClick={() => {deleteComment()}}>Delete</Button>
                 : ''}
                 {!commentData.Reported && user.Role === 'Standard' ? 
@@ -58,6 +63,8 @@ const CommentItem = ({comment, user}) => {
             
             <textarea defaultValue={commentData.Message} disabled style={{width : "99%", resize : "none"}}></textarea>
         </div>
+        : ''}
+        </>
     );
 }
  

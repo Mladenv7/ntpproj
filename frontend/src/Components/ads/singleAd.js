@@ -62,6 +62,7 @@ const SingleAd = () => {
         }, 1000);
     }
 
+
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
     }, [])
@@ -118,6 +119,17 @@ const SingleAd = () => {
                             deleteAd()
                         }}>
                             Delete
+                        </Button> : ''}
+                        &nbsp;
+                        {user.Role === 'Administrator' && !adData.Active ? 
+                        <Button variant="outline-success" onClick={() => {
+                            adData.Active = true
+                            sendUpdate()
+                            setTimeout(() => {
+                                navigate('/ads')
+                            }, 1000);
+                        }}>
+                            Approve
                         </Button> : ''}
                         &nbsp;
                         {user.Role === 'Standard' && adData.AuthorId === user.ID ?

@@ -34,9 +34,26 @@ func GetAdPage(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ads)
 }
 
+func GetInactiveAdPage(w http.ResponseWriter, r *http.Request) {
+	ads, _ := data.FindInactiveAdsPage(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(ads)
+}
+
 func GetTotalPages(w http.ResponseWriter, r *http.Request) {
 
 	_, nrOfAds := data.FindAdsPage(r)
+
+	totalPages := math.Ceil(float64(nrOfAds) / float64(4))
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(totalPages)
+}
+
+func GetInactiveTotalPages(w http.ResponseWriter, r *http.Request) {
+
+	_, nrOfAds := data.FindInactiveAdsPage(r)
 
 	totalPages := math.Ceil(float64(nrOfAds) / float64(4))
 

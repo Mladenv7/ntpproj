@@ -28,6 +28,25 @@ func GetAdsPage(w http.ResponseWriter, r *http.Request) {
 	util.DelegateResponse(response, w)
 }
 
+func GetInactiveAdsPage(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	page := r.URL.Query().Get("page")
+	//size := r.URL.Query().Get("size")
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/inactive?page="+page, "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
 func GetTotalPages(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
@@ -35,6 +54,22 @@ func GetTotalPages(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/totalPages", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetInactiveTotalPages(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/inactive/totalPages", "application/json", r.Body)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)

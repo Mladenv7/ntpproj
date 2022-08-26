@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
 import CommentService from "../../Services/commentService";
 
@@ -16,6 +16,7 @@ const NewComment = ({adId, callback, user}) => {
             Rating: Number(rating),
             AdId: Number(adId),
             AuthorId: user.ID,
+            AuthorUsername: user.Username,
         }
 
         let requestOptions = {
@@ -28,6 +29,11 @@ const NewComment = ({adId, callback, user}) => {
         callback(newComment)
         setMessage("")
     }
+
+    useEffect(() => {
+      setMessage(message)
+    }, [message])
+    
 
     return (  
        <div name="newComment">

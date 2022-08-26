@@ -22,6 +22,7 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Hatchback,
+			Active:       true,
 		},
 		{
 			Description:  "Mint condition",
@@ -34,6 +35,7 @@ var (
 			Drivetrain:   RWD,
 			FuelType:     Petrol,
 			Body:         Coupe,
+			Active:       true,
 		},
 		{
 			Description:  "Mint condition",
@@ -46,6 +48,7 @@ var (
 			Drivetrain:   RWD,
 			FuelType:     Diesel,
 			Body:         Coupe,
+			Active:       true,
 		},
 		{
 			Description:  "Mint condition",
@@ -70,6 +73,7 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Sedan,
+			Active:       true,
 		},
 		{
 			Description:  "Mint condition",
@@ -82,6 +86,7 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Petrol,
 			Body:         Hatchback,
+			Active:       true,
 		},
 	}
 
