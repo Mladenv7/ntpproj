@@ -135,3 +135,49 @@ func DeleteAd(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func SubscribeToAd(w http.ResponseWriter, r *http.Request) {
+	var subscriberData data.MailingListEntry
+
+	json.NewDecoder(r.Body).Decode(&subscriberData)
+
+	mailingList := data.FindSubscribersForAd(subscriberData.AdId)
+
+	w.WriteHeader(http.StatusOK)
+
+	for _, v := range mailingList {
+		if subscriberData.Mail == v.Mail {
+
+			data.UnsubscribeToAd(subscriberData.AdId, subscriberData.Mail)
+			json.NewEncoder(w).Encode("Unsubscribed")
+			return
+		}
+	}
+
+	data.SubscribeToAd(subscriberData.AdId, subscriberData.Mail)
+	json.NewEncoder(w).Encode("Subscribed")
+}
+
+func GetSubscribersForAd(w http.ResponseWriter, r *http.Request) {
+	pathVars := mux.Vars(r)
+
+	id, ok := pathVars["id"]
+	if !ok {
+		fmt.Println("id is missing in parameters")
+	}
+
+	parsedId, _ := strconv.ParseUint(id, 0, 32)
+
+	ad := data.FindAdById(parsedId)
+
+	if ad.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	subscribers := data.FindSubscribersForAd(parsedId)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(subscribers)
+}

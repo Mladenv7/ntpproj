@@ -23,6 +23,7 @@ var (
 			FuelType:     Diesel,
 			Body:         Hatchback,
 			Active:       true,
+			AuthorId:     2,
 		},
 		{
 			Description:  "Mint condition",
@@ -36,6 +37,7 @@ var (
 			FuelType:     Petrol,
 			Body:         Coupe,
 			Active:       true,
+			AuthorId:     2,
 		},
 		{
 			Description:  "Mint condition",
@@ -49,6 +51,7 @@ var (
 			FuelType:     Diesel,
 			Body:         Coupe,
 			Active:       true,
+			AuthorId:     3,
 		},
 		{
 			Description:  "Mint condition",
@@ -61,6 +64,7 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Hatchback,
+			AuthorId:     4,
 		},
 		{
 			Description:  "Mint condition",
@@ -74,6 +78,7 @@ var (
 			FuelType:     Diesel,
 			Body:         Sedan,
 			Active:       true,
+			AuthorId:     4,
 		},
 		{
 			Description:  "Mint condition",
@@ -87,6 +92,7 @@ var (
 			FuelType:     Petrol,
 			Body:         Hatchback,
 			Active:       true,
+			AuthorId:     2,
 		},
 	}
 
@@ -97,7 +103,7 @@ var (
 		},
 		{
 			AdId: 1,
-			Mail: "email2@maildrop.cc",
+			Mail: "email4@maildrop.cc",
 		},
 		{
 			AdId: 2,
@@ -105,7 +111,7 @@ var (
 		},
 		{
 			AdId: 3,
-			Mail: "email4@maildrop.cc",
+			Mail: "email2@maildrop.cc",
 		},
 		{
 			AdId: 3,

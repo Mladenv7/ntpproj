@@ -5,6 +5,7 @@ const UserService = {
         then((response) => response.json()).
         then((responseJson) => {
             setToken(responseJson)
+            localStorage.setItem("token", JSON.stringify(responseJson))
         })
     },
 
@@ -30,7 +31,10 @@ const UserService = {
 
     logout: () => {
         localStorage.removeItem("loggedIn")
+        localStorage.removeItem("token")
     },
+
+    
 }
 
 export default UserService

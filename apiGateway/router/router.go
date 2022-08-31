@@ -15,6 +15,8 @@ func HandleRequests() {
 	//router.HandleFunc("/api/allAds", handlers.GetAllAds).Methods("GET")
 	router.HandleFunc("/api/ads/new", handlers.CreateAd).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/update", handlers.UpdateAd).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/subscribe", handlers.SubscribeToAd).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/subscribers/{id}", handlers.GetSubscribersForAd).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/ads", handlers.GetAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/inactive", handlers.GetInactiveAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/totalPages", handlers.GetTotalPages).Methods("POST", "OPTIONS")

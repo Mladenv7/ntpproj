@@ -121,3 +121,33 @@ func Delete(id uint64) error {
 
 	return nil
 }
+
+func FindSubscribersForAd(adId uint64) []MailingListEntry {
+	var subscribers []MailingListEntry
+
+	Db.Table("mailing_list_entries").Where("ad_id = ? and deleted_at IS NULL", adId).Find(&subscribers)
+
+	return subscribers
+}
+
+func SubscribeToAd(adId uint64, email string) (uint, error) {
+	mailEntry := MailingListEntry{Mail: email, AdId: adId}
+
+	result := Db.Create(&mailEntry)
+
+	return mailEntry.ID, result.Error
+}
+
+func UnsubscribeToAd(adId uint64, email string) error {
+	var mailEntry MailingListEntry
+
+	Db.Table("mailing_list_entries").Where("ad_id = ? and mail = ? and deleted_at IS NULL", adId, email).First(&mailEntry)
+
+	if mailEntry.ID == 0 {
+		return errors.New(fmt.Sprintf("%s is not subscribed to ad with id %d", email, adId))
+	}
+
+	Db.Delete(&mailEntry)
+
+	return nil
+}

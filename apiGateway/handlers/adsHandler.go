@@ -152,3 +152,38 @@ func DeleteAd(w http.ResponseWriter, r *http.Request) {
 
 	util.DelegateResponse(response, w)
 }
+
+func SubscribeToAd(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/subscribe", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetSubscribersForAd(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	params := mux.Vars(r)
+	adId, _ := strconv.ParseUint(params["id"], 10, 64)
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/subscribers/" + strconv.FormatUint(uint64(adId), 10))
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}

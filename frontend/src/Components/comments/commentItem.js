@@ -51,12 +51,15 @@ const CommentItem = ({comment, user}) => {
                 <p>Rating: {commentData.Rating}</p>
                 </Col>
                 <Col>
-                {commentData.Reported && !commentData.DeletedAt && user.Role === 'Administrator' ? 
+                {commentData.Reported && user.Role === 'Administrator' ? 
                     <Button variant="danger" className="float-right" onClick={() => {deleteComment()}}>Delete</Button>
                 : ''}
                 {!commentData.Reported && user.Role === 'Standard' ? 
                     <Button variant="warning" className="float-right" onClick={() => {reportComment()}}>Report</Button>
-                : <p style={{color:"red"}}>This comment has been reported.</p>}
+                : ''}
+                {commentData.Reported && user.Role === 'Standard' ? 
+                     <p style={{color:"red"}}>This comment has been reported.</p>
+                : ''}
                 </Col>
             </Row>
             </Container>

@@ -8,6 +8,7 @@ require (
 	github.com/Mladenv7/ntpproj/apiGateway v0.0.0-00010101000000-000000000000
 	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/gorm v1.9.16
+	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 )
 
 require (

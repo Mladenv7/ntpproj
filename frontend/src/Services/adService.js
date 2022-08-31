@@ -66,6 +66,21 @@ const AdService = {
         })
     },
 
+    getMailingList : (id, setSubscribers) => {
+        fetch('http://localhost:8081/api/ads/subscribers/'+id)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setSubscribers(responseJson)
+        })
+    },
+
+    subscribe : (requestOptions) => {
+        fetch('http://localhost:8081/api/ads/subscribe', requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+        })
+    },
+
     manufacturers : [
         ["Acura" , []],
         ["Aston Martin" , ["DB7", "DB9", "DB11", "V8", "Vanquish", "Lagonda", "Rapide"]],
