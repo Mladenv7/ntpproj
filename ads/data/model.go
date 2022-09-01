@@ -49,7 +49,7 @@ type Ad struct {
 	FuelType     FuelType
 	Body         BodyType
 
-	Reported bool
+	Reported string
 	Boosted  bool
 	Active   bool
 }
@@ -59,4 +59,13 @@ type MailingListEntry struct {
 
 	AdId uint64
 	Mail string
+}
+
+type BoostRequest struct {
+	gorm.Model
+
+	AdId     uint64
+	Request  string
+	Username string
+	Email    string
 }

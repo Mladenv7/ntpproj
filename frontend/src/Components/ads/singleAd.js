@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AdService from "../../Services/adService";
 import Userservice from "../../Services/userService";
 import CommentsOfAd from "../comments/commentsOfAd";
+import Popup from 'reactjs-popup';
 
 const SingleAd = () => {
 
@@ -26,6 +27,8 @@ const SingleAd = () => {
     const [user, setUser] = useState(Userservice.getLoggedIn())
 
     const [mailingList, setMailingList] = useState([])
+
+    const [reportReason, setReportReason] = useState("")
     
     const navigate = useNavigate()
 
@@ -82,6 +85,19 @@ const SingleAd = () => {
         setMailingList(AdService.getMailingList(pathTokens[2], setMailingList))
     }
 
+    const sendReport = (reportReason) => {
+        adData.Reported = reportReason
+
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(adData)
+        }
+
+        AdService.updateAd(requestOptions)
+        setAdData(adData)
+    }
+
 
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
@@ -95,8 +111,35 @@ const SingleAd = () => {
     
     return (  
         <div name="adData" style={{height: "60vh", overflowY : "scroll", overflowX: "hidden"}}>
-            <h2>{adData.Manufacturer+" "+adData.ModelName}</h2>
+            <h2>{adData.Manufacturer+" "+adData.ModelName}</h2>  
+            
+            {!adData.Reported && adData.AuthorId !== user.ID ? <Popup trigger={<Button variant="outline-warning">Report this ad</Button>}
+             modal nested>    
+            {close => (
+            <div style={{backgroundColor : "white", border: "1px solid gray", padding: "5px"}}>
+                <Container style={{width: "30vw", height: "20vh"}}>
+                    <Row>
+                        <Col>
+                        <Form.Label>Why would you like to report this ad?</Form.Label>
+                        <Form.Control  as="textarea" id="reportMessage" style={{resize : "none"}} onChange={(event) => {setReportReason(event.target.value)}}></Form.Control>
+                        </Col>
+                    </Row><br></br>
+                    <Row>
+                        <Col>
+                            <Button variant="primary" onClick={() => {sendReport(reportReason);close()}}>Submit</Button>
+                        </Col>
+                        <Col/>
+                        <Col/>
+                    </Row>
+                </Container>
+            </div>
+            )}
+            </Popup> 
+                : ''}
+            {adData.Reported && user.Role === 'Standard' ? <p style={{color :'orange'}}>This ad has been reported</p> : ''}
+            {adData.Reported && user.Role === 'Administrator' ? <p style={{color :'orange'}}>Reported: {adData.Reported}</p> : ''}
             <Container>
+            <br></br>
                 <Row>
 
                 </Row>
@@ -139,7 +182,7 @@ const SingleAd = () => {
                 </Row><br></br>
                 <Row>
                     <Col>
-                        {user.Role === 'Administrator' && adData.Reported ? 
+                        {(user.Role === 'Administrator' && adData.Reported)  || adData.AuthorId === user.ID ? 
                         <Button variant="danger" onClick={() => {
                             deleteAd()
                         }}>

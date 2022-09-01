@@ -1,5 +1,5 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UserService from "../../Services/userService";
 
@@ -58,6 +58,13 @@ const LoginForm = () => {
                         <Button style={{width : "100%"}} onClick={() => {sendCredentials()}}>
                             Log in
                         </Button>
+                    </Col>
+                    <Col/>
+                </Row><br></br>
+                <Row>
+                    <Col/>
+                    <Col xs={9}>
+                    <Link to={""}>No account? Register here</Link>
                     </Col>
                     <Col/>
                 </Row>
