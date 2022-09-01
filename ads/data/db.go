@@ -63,7 +63,7 @@ func FindAdsPage(r *http.Request) ([]Ad, int32) {
 
 	Db.Scopes(Paginate(r)).Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS TRUE", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Order(sort).Find(&adsPage)
 
-	Db.Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Select("COUNT(*)").Row().Scan(&adCount)
+	Db.Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS TRUE", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Select("COUNT(*)").Row().Scan(&adCount)
 
 	return adsPage, adCount
 }
@@ -86,6 +86,28 @@ func FindInactiveAdsPage(r *http.Request) ([]Ad, int32) {
 	Db.Scopes(Paginate(r)).Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS FALSE", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Order(sort).Find(&adsPage)
 
 	Db.Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS FALSE", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Select("COUNT(*)").Row().Scan(&adCount)
+
+	return adsPage, adCount
+}
+
+func FindReportedAdsPage(r *http.Request) ([]Ad, int32) {
+
+	var searchParams apiGatewayData.SearchDTO
+
+	json.NewDecoder(r.Body).Decode(&searchParams)
+
+	var adsPage []Ad
+	var adCount int32
+
+	sort := searchParams.Sort
+
+	if sort == "" {
+		sort = "id"
+	}
+
+	Db.Scopes(Paginate(r)).Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS TRUE AND reported != '' ", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Order(sort).Find(&adsPage)
+
+	Db.Table("ads").Where("(ads.asking_price BETWEEN ? AND ?) AND (ads.mileage BETWEEN ? AND ?) AND ads.description LIKE ? AND deleted_at IS NULL AND active IS TRUE AND reported != '' ", searchParams.PriceFrom, searchParams.PriceTo, searchParams.MileageFrom, searchParams.MileageTo, "%"+searchParams.Description+"%").Select("COUNT(*)").Row().Scan(&adCount)
 
 	return adsPage, adCount
 }

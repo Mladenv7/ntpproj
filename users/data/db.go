@@ -43,3 +43,13 @@ func Update(user User) (uint, error) {
 
 	return user.ID, result.Error
 }
+
+func FindAllUsers() ([]User, int32) {
+	var allUsers []User
+	var userCount int32
+
+	Db.Find(&allUsers)
+	Db.Table("users").Where("deleted_at IS NULL").Select("COUNT(*)").Row().Scan(&userCount)
+
+	return allUsers, userCount
+}

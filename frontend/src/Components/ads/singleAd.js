@@ -113,7 +113,7 @@ const SingleAd = () => {
         <div name="adData" style={{height: "60vh", overflowY : "scroll", overflowX: "hidden"}}>
             <h2>{adData.Manufacturer+" "+adData.ModelName}</h2>  
             
-            {!adData.Reported && adData.AuthorId !== user.ID ? <Popup trigger={<Button variant="outline-warning">Report this ad</Button>}
+            {!adData.Reported && adData.AuthorId !== user.ID && user.Role === "Standard" ? <Popup trigger={<Button variant="outline-warning">Report this ad</Button>}
              modal nested>    
             {close => (
             <div style={{backgroundColor : "white", border: "1px solid gray", padding: "5px"}}>

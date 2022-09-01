@@ -54,7 +54,7 @@ const CommentItem = ({comment, user}) => {
                 {commentData.Reported && user.Role === 'Administrator' ? 
                     <Button variant="danger" className="float-right" onClick={() => {deleteComment()}}>Delete</Button>
                 : ''}
-                {!commentData.Reported && user.Role === 'Standard' ? 
+                {!commentData.Reported && user.Role === 'Standard' && user.ID !== commentData.AuthorId ? 
                     <Button variant="warning" className="float-right" onClick={() => {reportComment()}}>Report</Button>
                 : ''}
                 {commentData.Reported && user.Role === 'Standard' ? 

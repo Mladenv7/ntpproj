@@ -38,7 +38,24 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func BanUser(w http.ResponseWriter, r *http.Request) {
+	var toBeBanned string
 
+	json.NewDecoder(r.Body).Decode(&toBeBanned)
+
+	user := data.FindByEmail(toBeBanned)
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	user.Banned = true
+
+	bannedId, err := data.Update(user)
+
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(bannedId)
+	}
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -96,4 +113,12 @@ func GetLoggedIn(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(user)
+}
+
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+
+	allUsers, _ := data.FindAllUsers()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(allUsers)
 }

@@ -9,6 +9,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func GetAllAds(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/allAds")
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
 func GetAdsPage(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
@@ -47,6 +63,25 @@ func GetInactiveAdsPage(w http.ResponseWriter, r *http.Request) {
 	util.DelegateResponse(response, w)
 }
 
+func GetReportedAdsPage(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	page := r.URL.Query().Get("page")
+	//size := r.URL.Query().Get("size")
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/reported?page="+page, "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
 func GetTotalPages(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
@@ -70,6 +105,22 @@ func GetInactiveTotalPages(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/inactive/totalPages", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetReportedTotalPages(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/reported/totalPages", "application/json", r.Body)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)

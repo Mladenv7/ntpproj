@@ -26,7 +26,7 @@ const NewAds = () => {
 
     const getPage = (pageNr) => {
         setUrlParams({page: String(pageNr)});
-        AdService.getInactiveAdsPage(setAds, pageNr, requestOptions)
+        AdService.getReportedAdsPage(setAds, pageNr, requestOptions)
     }
 
     const getSearchResults = (searchData) => {
@@ -37,13 +37,13 @@ const NewAds = () => {
         }
         setBodyParams(searchData)
 
-        AdService.getInactiveAdsPage(setAds, 0, requestOptions)
-        AdService.getInactiveTotalPages(setTotalPages, setPageNumbers, requestOptions)
+        AdService.getReportedAdsPage(setAds, 0, requestOptions)
+        AdService.getReportedTotalPages(setTotalPages, setPageNumbers, requestOptions)
     }
 
     useEffect(() => {
-        AdService.getInactiveAdsPage(setAds, 0,  requestOptions)
-        AdService.getInactiveTotalPages(setTotalPages, setPageNumbers,  requestOptions)
+        AdService.getReportedAdsPage(setAds, 0,  requestOptions)
+        AdService.getReportedTotalPages(setTotalPages, setPageNumbers,  requestOptions)
     }, [])
 
     return (  

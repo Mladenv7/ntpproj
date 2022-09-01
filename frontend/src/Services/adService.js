@@ -1,5 +1,13 @@
 const AdService = {
 
+    getAllAds : (setAds) => {
+        fetch('http://localhost:8081/api/ads/allAds')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setAds(responseJson)
+        })
+    },
+
     getAdsPage : (setAds, page, requestOptions) => {
         fetch('http://localhost:8081/api/ads?page='+page, requestOptions)
         .then((response) => response.json())
@@ -10,6 +18,14 @@ const AdService = {
 
     getInactiveAdsPage : (setAds, page, requestOptions) => {
         fetch('http://localhost:8081/api/ads/inactive?page='+page, requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setAds(responseJson)
+        })
+    },
+
+    getReportedAdsPage : (setAds, page, requestOptions) => {
+        fetch('http://localhost:8081/api/ads/reported?page='+page, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
             setAds(responseJson)
@@ -27,6 +43,15 @@ const AdService = {
 
     getInactiveTotalPages : (setTotalPages, setPageNumbers, requestOptions) => {
         fetch('http://localhost:8081/api/ads/inactive/totalPages', requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setTotalPages(responseJson)
+            setPageNumbers(Array.from({length: responseJson}, (_, i) => i + 1))
+        })
+    },
+
+    getReportedTotalPages : (setTotalPages, setPageNumbers, requestOptions) => {
+        fetch('http://localhost:8081/api/ads/reported/totalPages', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
             setTotalPages(responseJson)

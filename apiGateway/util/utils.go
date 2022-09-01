@@ -4,9 +4,13 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 
+	"github.com/golang-jwt/jwt"
 	roundRobinScheduler "github.com/hlts2/round-robin"
 )
+
+var jwtKey = "vnq7934vn834nv9rugfjq3epr4w08fgie083209j"
 
 var AdServiceBasePath, _ = roundRobinScheduler.New(
 	&url.URL{Host: "http://localhost:8080/api/ads"},
@@ -33,4 +37,15 @@ func SetupResponse(w *http.ResponseWriter, r *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
+func GetTokenFromRequest(r *http.Request) (*jwt.Token, error) {
+	cookie := r.Header.Values("Authorization")
+	tokenString := strings.Split(cookie[0], "Bearer ")[1]
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtKey), nil
+	})
+
+	return token, err
 }
