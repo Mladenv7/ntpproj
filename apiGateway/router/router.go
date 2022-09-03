@@ -38,6 +38,8 @@ func HandleRequests() {
 	router.HandleFunc("/api/users/register", handlers.Register).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/login", handlers.Login).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/loggedIn", handlers.GetLoggedIn).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users", handlers.GetAllUsers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/ban", handlers.BanUser).Methods("POST", "OPTIONS")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

@@ -1,5 +1,20 @@
 const UserService = {
 
+    getAllUsers : (setUsers) => {
+        fetch('http://localhost:8081/api/users').
+        then((response) => response.json()).
+        then((responseJson) => {
+            setUsers(responseJson.map(user => {user.Password = ''; return user}))
+        })
+    },
+
+    banUser : (requestOptions) => {
+        fetch('http://localhost:8081/api/users/ban', requestOptions).
+        then((response) => response.json()).
+        then((responseJson) => {      
+        })
+    },
+
     login : (requestOptions, setToken) => {
         fetch('http://localhost:8081/api/users/login', requestOptions).
         then((response) => response.json()).
