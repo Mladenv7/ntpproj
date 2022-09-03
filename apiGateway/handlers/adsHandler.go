@@ -238,3 +238,57 @@ func GetSubscribersForAd(w http.ResponseWriter, r *http.Request) {
 
 	util.DelegateResponse(response, w)
 }
+
+func NewBoostRequest(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/newBoostRequest", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetAllRequests(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/boostRequests")
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func DeleteBoostRequest(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	params := mux.Vars(r)
+	reqId, _ := strconv.ParseUint(params["id"], 10, 64)
+
+	request, _ := http.NewRequest(http.MethodDelete, util.AdServiceBasePath.Next().Host+"/deleteBoostRequest/"+strconv.FormatUint(uint64(reqId), 10), r.Body)
+	request.Header.Set("Accept", "application/json")
+	client := &http.Client{}
+	response, err := client.Do(request)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}

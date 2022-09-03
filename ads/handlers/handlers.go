@@ -198,3 +198,42 @@ func GetSubscribersForAd(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(subscribers)
 }
+
+func NewBoostRequest(w http.ResponseWriter, r *http.Request) {
+	var request data.BoostRequest
+
+	json.NewDecoder(r.Body).Decode(&request)
+
+	id, err := data.CreateBoostRequest(request)
+
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(err.Error())
+	} else {
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(id)
+	}
+}
+
+func DeleteBoostRequest(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, _ := strconv.ParseUint(params["id"], 10, 64)
+
+	err := data.DeleteBoostRequest(id)
+
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err.Error())
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}
+
+func GetAllBoostRequests(w http.ResponseWriter, r *http.Request) {
+	requests, _ := data.FindAllRequests()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(requests)
+}

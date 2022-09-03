@@ -137,6 +137,9 @@ func InitializeData() {
 	Db.DropTable("mailing_list_entries")
 	Db.AutoMigrate(&MailingListEntry{})
 
+	Db.DropTable("boost_requests")
+	Db.AutoMigrate(&BoostRequest{})
+
 	for _, ad := range ads {
 		Db.Create(&ad)
 	}

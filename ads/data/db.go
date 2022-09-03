@@ -173,3 +173,33 @@ func UnsubscribeToAd(adId uint64, email string) error {
 
 	return nil
 }
+
+func CreateBoostRequest(request BoostRequest) (uint, error) {
+	result := Db.Create(&request)
+
+	return request.ID, result.Error
+}
+
+func DeleteBoostRequest(id uint64) error {
+	var request BoostRequest
+
+	Db.First(&request, id)
+
+	if request.ID == 0 {
+		return errors.New(fmt.Sprintf("Boost request with ID %d does not exist", id))
+	}
+
+	Db.Delete(&request)
+
+	return nil
+}
+
+func FindAllRequests() ([]BoostRequest, int32) {
+	var allRequests []BoostRequest
+	var reqCount int32
+
+	Db.Find(&allRequests)
+	Db.Table("boost_requests").Where("deleted_at IS NULL").Select("COUNT(*)").Row().Scan(&reqCount)
+
+	return allRequests, reqCount
+}
