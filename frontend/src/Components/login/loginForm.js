@@ -1,6 +1,7 @@
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
 import UserService from "../../Services/userService";
 
 const LoginForm = () => {
@@ -30,8 +31,21 @@ const LoginForm = () => {
         if(token && token !== "Wrong credentials"){
             UserService.getUserFromToken(token)
             setTimeout(() => {
+                let user = UserService.getLoggedIn()
+
+                if(user.Banned){
+                    toast.error("You are banned!")
+                    return
+                }
+                if(!user.Active){
+                    toast.info("This account is not active yet, please check your e-mail.")
+                    return
+                }
+
                 navigate("/ads")
             }, 1000);
+        }else if(token === "Wrong credentials"){
+            toast.error("Wrong credentials!")
         }
     }, [token])
     
@@ -69,6 +83,7 @@ const LoginForm = () => {
                     <Col/>
                 </Row>
             </Form>
+            <ToastContainer autoClose={1000}/>
         </Container>
     );
 }

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 const UserService = {
 
     getAllUsers : (setUsers) => {
@@ -21,6 +23,8 @@ const UserService = {
         then((responseJson) => {
             setToken(responseJson)
             localStorage.setItem("token", JSON.stringify(responseJson))
+        }).catch((error) => {
+            toast.error("Bad credentials")
         })
     },
 

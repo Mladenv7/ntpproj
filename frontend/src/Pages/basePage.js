@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import UserObserver from "../Components/userObserver";
 import BaseLayout from "../Layouts/baseLayout";
 
@@ -6,6 +7,7 @@ const BasePage = () => {
         <>
         <UserObserver/>
         <BaseLayout/>
+        <ToastContainer autoClose={1000}/>
         </>  
         
     );
