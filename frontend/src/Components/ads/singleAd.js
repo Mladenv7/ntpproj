@@ -5,6 +5,7 @@ import AdService from "../../Services/adService";
 import Userservice from "../../Services/userService";
 import CommentsOfAd from "../comments/commentsOfAd";
 import Popup from 'reactjs-popup';
+import { toast } from "react-toastify";
 
 const SingleAd = () => {
 
@@ -98,6 +99,21 @@ const SingleAd = () => {
         setAdData(adData)
     }
 
+    const sendBoostRequest = (boostReason) => {
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                AdId     : adData.ID,
+                Request  : boostReason,
+                Username : user.Username,
+                Email    : user.Email,
+            })
+        }
+
+        AdService.sendBoostRequest(requestOptions)
+        toast.info("Your request will be reviewed by admin staff")
+    }
 
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
@@ -127,6 +143,29 @@ const SingleAd = () => {
                     <Row>
                         <Col>
                             <Button variant="primary" onClick={() => {sendReport(reportReason);close()}}>Submit</Button>
+                        </Col>
+                        <Col/>
+                        <Col/>
+                    </Row>
+                </Container>
+            </div>
+            )}
+            </Popup> 
+                : ''}
+            {!adData.Boosted && adData.AuthorId === user.ID && user.Role === "Standard" ? <Popup trigger={<Button variant="outline-info">Request boost</Button>}
+             modal nested>    
+            {close => (
+            <div style={{backgroundColor : "white", border: "1px solid gray", padding: "5px"}}>
+                <Container style={{width: "30vw", height: "20vh"}}>
+                    <Row>
+                        <Col>
+                        <Form.Label>Provide some motivation for boost</Form.Label>
+                        <Form.Control  as="textarea" id="reportMessage" style={{resize : "none"}} onChange={(event) => {setReportReason(event.target.value)}}></Form.Control>
+                        </Col>
+                    </Row><br></br>
+                    <Row>
+                        <Col>
+                            <Button variant="primary" onClick={() => {sendBoostRequest(reportReason);close()}}>Submit</Button>
                         </Col>
                         <Col/>
                         <Col/>

@@ -25,9 +25,9 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/reported/totalPages", handlers.GetReportedTotalPages).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/{id}", handlers.GetSingleAd).Methods("GET")
 	router.HandleFunc("/api/ads/delete/{id}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
-	router.HandleFunc("/api/ads/newBoostRequest", handlers.GetReportedTotalPages).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/ads/boostRequests", handlers.GetSingleAd).Methods("GET", "OPTIONS")
-	router.HandleFunc("/api/ads/deleteBoostRequests/{id}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/api/ads/newBoostRequest", handlers.NewBoostRequest).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/ads/boostRequests", handlers.GetAllRequests).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/ads/deleteBoostRequests/{id}", handlers.DeleteBoostRequest).Methods("DELETE", "OPTIONS")
 
 	// Comment routes
 	router.HandleFunc("/api/comments/new", handlers.CreateComment).Methods("POST", "OPTIONS")
