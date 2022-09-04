@@ -22,6 +22,8 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Hatchback,
+			Active:       true,
+			AuthorId:     2,
 		},
 		{
 			Description:  "Mint condition",
@@ -34,6 +36,8 @@ var (
 			Drivetrain:   RWD,
 			FuelType:     Petrol,
 			Body:         Coupe,
+			Active:       true,
+			AuthorId:     2,
 		},
 		{
 			Description:  "Mint condition",
@@ -46,6 +50,8 @@ var (
 			Drivetrain:   RWD,
 			FuelType:     Diesel,
 			Body:         Coupe,
+			Active:       true,
+			AuthorId:     3,
 		},
 		{
 			Description:  "Mint condition",
@@ -58,6 +64,7 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Hatchback,
+			AuthorId:     4,
 		},
 		{
 			Description:  "Mint condition",
@@ -70,6 +77,8 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Diesel,
 			Body:         Sedan,
+			Active:       true,
+			AuthorId:     4,
 		},
 		{
 			Description:  "Mint condition",
@@ -82,6 +91,31 @@ var (
 			Drivetrain:   FWD,
 			FuelType:     Petrol,
 			Body:         Hatchback,
+			Active:       true,
+			AuthorId:     2,
+		},
+	}
+
+	mailingEntries = []MailingListEntry{
+		{
+			AdId: 1,
+			Mail: "email5@maildrop.cc",
+		},
+		{
+			AdId: 1,
+			Mail: "email4@maildrop.cc",
+		},
+		{
+			AdId: 2,
+			Mail: "email3@maildrop.cc",
+		},
+		{
+			AdId: 3,
+			Mail: "email2@maildrop.cc",
+		},
+		{
+			AdId: 3,
+			Mail: "email5@maildrop.cc",
 		},
 	}
 )
@@ -100,8 +134,17 @@ func InitializeData() {
 	Db.DropTable("ads")
 	Db.AutoMigrate(&Ad{})
 
+	Db.DropTable("mailing_list_entries")
+	Db.AutoMigrate(&MailingListEntry{})
+
+	Db.DropTable("boost_requests")
+	Db.AutoMigrate(&BoostRequest{})
+
 	for _, ad := range ads {
 		Db.Create(&ad)
 	}
 
+	for _, entry := range mailingEntries {
+		Db.Create(&entry)
+	}
 }

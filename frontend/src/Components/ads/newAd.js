@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import AdService from "../../Services/adService";
+import UserService from "../../Services/userService";
 
 const NewAd = () => {
 
@@ -26,6 +27,9 @@ const NewAd = () => {
 
     const [description, setDescription] = useState("")
 
+    const [user, setUser] = useState(UserService.getLoggedIn())
+
+
     let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,6 +37,7 @@ const NewAd = () => {
             Description : description,
             AskingPrice : Number(askingPrice),
             Mileage     : Number(mileage),
+            AuthorId    : user.ID,
 
             Manufacturer : manufacturer[0],
             ModelName    : modelName+" "+trim,
@@ -41,6 +46,8 @@ const NewAd = () => {
             Drivetrain   : drivetrain,
             FuelType     : fuel,
             Body         : body,
+
+            Active       : false,
         })
     }
 
@@ -137,7 +144,7 @@ const NewAd = () => {
                         </Col>
                         <Col>
                         <Form.Label htmlFor="descriptionInput">Decription</Form.Label>
-                        <Form.Control as="textarea" id="descriptionInput" onChange={(event) => {setDescription(event.target.value)}}/>
+                        <Form.Control as="textarea" id="descriptionInput" style={{maxHeight : "150px"}} onChange={(event) => {setDescription(event.target.value)}}/>
                         </Col>
                     </Row>
                 </Form.Group>

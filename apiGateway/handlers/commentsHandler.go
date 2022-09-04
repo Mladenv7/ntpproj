@@ -1,13 +1,32 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	util "github.com/Mladenv7/ntpproj/apiGateway/util"
+	commentsData "github.com/Mladenv7/ntpproj/comments/data"
+
 	"github.com/gorilla/mux"
 )
+
+func GetAllComments(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Get(util.CommentServiceBasePath.Next().Host)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
 
 func CreateComment(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
@@ -74,6 +93,41 @@ func GetCommentsForAd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, err := http.Get(util.CommentServiceBasePath.Next().Host + "/ofAd/" + id)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetNrReportedComments(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	var comments []commentsData.Comment
+	nrOfReports := make(map[string]int)
+
+	response, err := http.Get(util.CommentServiceBasePath.Next().Host)
+
+	json.NewDecoder(response.Body).Decode(&comments)
+
+	for _, comment := range comments {
+		if !comment.Reported {
+			continue
+		}
+		if _, ok := nrOfReports[comment.AuthorUsername]; ok {
+			nrOfReports[comment.AuthorUsername] += 1
+		} else {
+			nrOfReports[comment.AuthorUsername] = 1
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(nrOfReports)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)

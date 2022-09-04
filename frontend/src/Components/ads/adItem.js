@@ -1,10 +1,14 @@
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import UserService from "../../Services/userService";
 
-const AdItem = ({adData}) => {
+const AdItem = ({adData, color}) => {
     return (  
-        <article>
-            <Row><Col><h4><Link to={"/ads/"+adData.ID}>{adData.Manufacturer+" "+adData.ModelName}</Link></h4></Col></Row>
+        <article style={{backgroundColor : color}}>
+            <Row><Col>
+                <h4>
+                {UserService.getLoggedIn() ? <Link to={"/ads/"+adData.ID}>{adData.Manufacturer+" "+adData.ModelName}</Link> : adData.Manufacturer+" "+adData.ModelName}
+                </h4></Col></Row>
             <Row>
             <Col>
                 {/* picture goes here */}

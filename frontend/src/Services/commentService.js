@@ -1,5 +1,12 @@
 const CommentService = {
 
+    getAllComments : (setComments) => {
+        fetch('http://localhost:8081/api/comments')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setComments(responseJson)
+        })
+    },
 
     getCommentsOfAd : (id, setCommentsData) => {
         fetch('http://localhost:8081/api/comments/ofAd/'+id)

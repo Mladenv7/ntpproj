@@ -5,11 +5,14 @@ import PageNav from '../pageNav'
 import AdItem from './adItem'
 import { useSearchParams } from 'react-router-dom';
 import AdSearchForm from './adSearchForm'
+import BoostedAds from './boostedAds'
   
 
 const AllAds = () => {
 
     const [ads, setAds] = useState([])
+
+    const [boostedAds, setBoostedAds] = useState([])
 
     const [pageNumbers, setPageNumbers] = useState([])
 
@@ -45,11 +48,18 @@ const AllAds = () => {
     useEffect(() => {
         AdService.getAdsPage(setAds, 0,  requestOptions)
         AdService.getTotalPages(setTotalPages, setPageNumbers,  requestOptions)
+        AdService.getBoostedAds(setBoostedAds)
     }, [])
 
     return (  
-        <div style={{height: "60vh", overflowY: "scroll", overflowX: "hidden"}}>
         
+        <>
+        
+        <div style={{height: "60vh", overflowY: "scroll", overflowX: "hidden"}}>
+        <h4>Boosted ads</h4>
+        <BoostedAds />
+        <hr></hr>
+        <h4>All ads</h4>
             <Row>
                 <Col xs={9}>
                 <div name="adArticles"  >
@@ -75,6 +85,7 @@ const AllAds = () => {
             </Row>
         </Container>
         </div>
+        </>
     );
 }
  
