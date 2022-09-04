@@ -10,6 +10,7 @@ import ReportedComments from './Components/comments/reportedComments';
 import AllUsers from './Components/users/allUsers';
 import BasePage from './Pages/basePage'
 import LoginPage from './Pages/loginPage'
+import RegistrationPage from './Pages/registrationPage';
 
 const App = () => {
     return (  
@@ -27,6 +28,7 @@ const App = () => {
                     <Route path="allRequests" element={<AllRequests/>}/>
                 </Route>
                 <Route path='/login' element={<LoginPage/>}/>
+                <Route path='/register' element={<RegistrationPage/>}/>
             </Routes>
         </div>
     );

@@ -53,7 +53,13 @@ const UserService = {
         localStorage.removeItem("token")
     },
 
-    
+    registration : (requestOptions) => {
+        fetch('http://localhost:8081/api/users/register', requestOptions).
+        then((response) => response.json()).
+        then((responseJson) => {
+            
+        })
+    }
 }
 
 export default UserService
