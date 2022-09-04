@@ -128,6 +128,14 @@ const AdService = {
         })
     },
 
+    getBoostedAds : (setBoosted) => {
+        fetch('http://localhost:8081/api/ads/boosted')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setBoosted(responseJson)
+        })
+    },
+
     manufacturers : [
         ["Acura" , ["NSX", "Integra", "TLX", "RDX"]],
         ["Aston Martin" , ["DB7", "DB9", "DB11", "V8", "Vanquish", "Lagonda", "Rapide"]],

@@ -28,6 +28,7 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/newBoostRequest", handlers.NewBoostRequest).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/requests", handlers.GetAllBoostRequests).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/ads/deleteBoostRequest/{id:[0-9]+}", handlers.DeleteBoostRequest).Methods("DELETE", "OPTIONS")
+	router.HandleFunc("/api/ads/boosted", handlers.GetBoostedAds).Methods("GET", "OPTIONS")
 
 	// Comment routes
 	router.HandleFunc("/api/comments/new", handlers.CreateComment).Methods("POST", "OPTIONS")

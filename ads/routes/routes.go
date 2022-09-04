@@ -28,6 +28,7 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/newBoostRequest", handler.NewBoostRequest).Methods("POST")
 	router.HandleFunc("/api/ads/requests", handler.GetAllBoostRequests).Methods("GET")
 	router.HandleFunc("/api/ads/deleteBoostRequest/{id:[0-9]+}", handler.DeleteBoostRequest).Methods("DELETE")
+	router.HandleFunc("/api/ads/boosted", handler.GetAllBoostedAds).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

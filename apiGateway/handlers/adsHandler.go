@@ -292,3 +292,19 @@ func DeleteBoostRequest(w http.ResponseWriter, r *http.Request) {
 
 	util.DelegateResponse(response, w)
 }
+
+func GetBoostedAds(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/boosted")
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}

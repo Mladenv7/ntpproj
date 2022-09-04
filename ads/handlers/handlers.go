@@ -237,3 +237,10 @@ func GetAllBoostRequests(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(requests)
 }
+
+func GetAllBoostedAds(w http.ResponseWriter, r *http.Request) {
+	boostedAds, _ := data.FindAllBoostedAds()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(boostedAds)
+}

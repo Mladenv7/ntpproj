@@ -11,7 +11,7 @@ const UserObserver = () => {
     useEffect(() => {
         setUser(user)
 
-        if(!user) navigate("/login")
+        if(!user && window.location.pathname !== '/ads') navigate("/ads")
     }, [user])
     
 

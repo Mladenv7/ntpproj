@@ -203,3 +203,13 @@ func FindAllRequests() ([]BoostRequest, int32) {
 
 	return allRequests, reqCount
 }
+
+func FindAllBoostedAds() ([]Ad, int32) {
+	var boostedAds []Ad
+	var adCount int32
+
+	Db.Table("ads").Where("deleted_at IS NULL AND boosted IS TRUE").Find(&boostedAds)
+	Db.Table("ads").Where("deleted_at IS NULL AND boosted IS TRUE").Select("COUNT(*)").Row().Scan(&adCount)
+
+	return boostedAds, adCount
+}
