@@ -152,7 +152,7 @@ const SingleAd = () => {
             )}
             </Popup> 
                 : ''}
-            {!adData.Boosted && adData.AuthorId === user.ID && user.Role === "Standard" ? <Popup trigger={<Button variant="outline-info">Request boost</Button>}
+            {!adData.Boosted && adData.Active && adData.AuthorId === user.ID && user.Role === "Standard" ? <Popup trigger={<Button variant="outline-info">Request boost</Button>}
              modal nested>    
             {close => (
             <div style={{backgroundColor : "white", border: "1px solid gray", padding: "5px"}}>
@@ -177,6 +177,7 @@ const SingleAd = () => {
                 : ''}
             {adData.Reported && user.Role === 'Standard' ? <p style={{color :'orange'}}>This ad has been reported</p> : ''}
             {adData.Reported && user.Role === 'Administrator' ? <p style={{color :'orange'}}>Reported: {adData.Reported}</p> : ''}
+            {!adData.Active && user.Role === 'Standard' && user.ID === adData.AuthorId ? <p style={{color :'blue'}}>This ad is awaiting approval</p> : ''}
             <Container>
             <br></br>
                 <Row>

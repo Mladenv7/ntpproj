@@ -32,7 +32,7 @@ const AppNavbar = () => {
             {user.Role === "Administrator" ? <Nav.Link href="/newAds">New ads</Nav.Link> : ""}
             {user.Role === "Administrator" ? <Nav.Link href="/reportedAds">Reported ads</Nav.Link> : ""}
             {user.Role === "Administrator" ? <Nav.Link href="/reportedComments">Reported comments</Nav.Link> : ""}
-            {user.Role === "Administrator" ? <Nav.Link href="/boostRequests">Boost requests</Nav.Link> : ""}
+            {user.Role === "Administrator" ? <Nav.Link href="/allRequests">Boost requests</Nav.Link> : ""}
             {user.Role === "Administrator" ? <Nav.Link href="/reports">Reports</Nav.Link> : ""}
             {user.Role === "Administrator" ? <Nav.Link href="/allUsers">Users</Nav.Link> : ""}
           </Nav>

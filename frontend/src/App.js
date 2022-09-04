@@ -1,5 +1,6 @@
 import {Route, Routes} from 'react-router-dom'
 import AllAds from './Components/ads/allAds';
+import AllRequests from './Components/ads/allRequests';
 import MyAds from './Components/ads/myAds';
 import NewAd from './Components/ads/newAd';
 import NewAds from './Components/ads/newAds';
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path='reportedComments' element={<ReportedComments/>}/>
                     <Route path='myAds' element={<MyAds/>}/>
                     <Route path='allUsers' element={<AllUsers/>}/>
+                    <Route path="allRequests" element={<AllRequests/>}/>
                 </Route>
                 <Route path='/login' element={<LoginPage/>}/>
             </Routes>

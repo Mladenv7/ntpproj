@@ -1,6 +1,7 @@
 import {Container} from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
 import AllAds from "./ads/allAds";
+import AllRequests from "./ads/allRequests";
 import MyAds from "./ads/myAds";
 import NewAd from "./ads/newAd";
 import NewAds from "./ads/newAds";
@@ -22,6 +23,7 @@ const Body = () => {
                 <Route path='reportedComments' element={<ReportedComments/>}/>
                 <Route path='myAds' element={<MyAds/>}/>
                 <Route path='allUsers' element={<AllUsers/>}/>
+                <Route path="allRequests" element={<AllRequests/>}/>
             </Routes>
         </Container>
     );

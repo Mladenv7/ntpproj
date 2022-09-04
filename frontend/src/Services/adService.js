@@ -106,8 +106,23 @@ const AdService = {
         })
     },
 
+    getAllBoostRequests : (setRequests) => {
+        fetch('http://localhost:8081/api/ads/requests')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setRequests(responseJson)
+        })
+    },
+
     sendBoostRequest : (requestOptions) => {
         fetch('http://localhost:8081/api/ads/newBoostRequest', requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+        })
+    },
+
+    deleteBoostRequest : (requestOptions, id) => {
+        fetch('http://localhost:8081/api/ads/deleteBoostRequest/'+id, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
         })

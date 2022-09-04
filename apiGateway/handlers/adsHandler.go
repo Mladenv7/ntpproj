@@ -255,13 +255,13 @@ func NewBoostRequest(w http.ResponseWriter, r *http.Request) {
 	util.DelegateResponse(response, w)
 }
 
-func GetAllRequests(w http.ResponseWriter, r *http.Request) {
+func GetAllBoostRequests(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
 		return
 	}
 
-	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/boostRequests")
+	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/requests")
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)
