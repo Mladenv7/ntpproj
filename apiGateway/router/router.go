@@ -45,5 +45,12 @@ func HandleRequests() {
 	router.HandleFunc("/api/users", handlers.GetAllUsers).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users/ban", handlers.BanUser).Methods("POST", "OPTIONS")
 
+	// Report routes
+	router.HandleFunc("/api/reports/worstUsers", handlers.GetWorstUsers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/visits", handlers.GetAllVisits).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/mostSubscribed", handlers.GetMostSubscribed).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/popularManufacturers", handlers.GetPopularManufacturers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/newVisit", handlers.AddVisit).Methods("POST", "OPTIONS")
+
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

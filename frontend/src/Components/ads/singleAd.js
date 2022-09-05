@@ -3,13 +3,16 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import AdService from "../../Services/adService";
 import Userservice from "../../Services/userService";
+import ReportService from "../../Services/reportService";
 import CommentsOfAd from "../comments/commentsOfAd";
 import Popup from 'reactjs-popup';
 import { toast } from "react-toastify";
 
 const SingleAd = () => {
 
-    const [adData, setAdData] = useState({})
+    let pathTokens = window.location.pathname.split("/")
+
+    const [adData, setAdData] = useState({ID: pathTokens[2]})
 
     const [drivetrain, setDrivetrain] = useState("")
 
@@ -32,8 +35,6 @@ const SingleAd = () => {
     const [reportReason, setReportReason] = useState("")
     
     const navigate = useNavigate()
-
-    let pathTokens = window.location.pathname.split("/")
 
     const sendUpdate = () => {
 
@@ -115,9 +116,26 @@ const SingleAd = () => {
         toast.info("Your request will be reviewed by admin staff")
     }
 
+    const addVisit = () => {
+        let today = new Date()
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id : 0,
+                ad_id : Number(adData.ID),
+                timestamp : today.toISOString().split('T')[0],
+                username : user.Username,
+            })
+        }
+
+        ReportService.addVisit(requestOptions);
+    }
+
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
         AdService.getMailingList(pathTokens[2], setMailingList)
+        if(user.Role !== "Administrator" && adData.AuthorId !== user.ID) addVisit();
     }, [])
     
     useEffect(() => {

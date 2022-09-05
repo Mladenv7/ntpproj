@@ -8,6 +8,15 @@ const CommentService = {
         })
     },
 
+    getNrReported : (setComments) => {
+        fetch('http://localhost:8081/api/comments/nrReports')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setComments(responseJson)
+        })
+    },
+
+
     getCommentsOfAd : (id, setCommentsData) => {
         fetch('http://localhost:8081/api/comments/ofAd/'+id)
         .then((response) => response.json())

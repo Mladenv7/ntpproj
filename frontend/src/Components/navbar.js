@@ -37,10 +37,10 @@ const AppNavbar = () => {
             {/* {user?.Role === "Administrator" ? <Nav.Link href="/reports">Reports</Nav.Link> : ""} */}
             {user?.Role === "Administrator" ? <Nav.Link href="/allUsers">Users</Nav.Link> : ""}
             {user?.Role === "Administrator" ? <NavDropdown title="Reports" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Worst users</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Most subscribed ads</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Most visisted ads</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Popular manufacturers</NavDropdown.Item>
+              <NavDropdown.Item href="/worstUsers">Worst users</NavDropdown.Item>
+              <NavDropdown.Item href="/mostSubscribed">Most subscribed ads</NavDropdown.Item>
+              <NavDropdown.Item href="/mostVisited">Most visisted ads</NavDropdown.Item>
+              <NavDropdown.Item href="/popularManufacturers">Popular manufacturers</NavDropdown.Item>
             </NavDropdown> : ""}
           </Nav>
           <div className='d-flex'>
