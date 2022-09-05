@@ -78,7 +78,7 @@ const LoginForm = () => {
                 <Row>
                     <Col/>
                     <Col xs={9}>
-                    <Link to={""}>No account? Register here</Link>
+                    <Link to={"/register"}>No account? Register here</Link>
                     </Col>
                     <Col/>
                 </Row>
