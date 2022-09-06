@@ -5,6 +5,7 @@ import AdService from "../../Services/adService";
 import Userservice from "../../Services/userService";
 import ReportService from "../../Services/reportService";
 import CommentsOfAd from "../comments/commentsOfAd";
+import EmailService from "../../Services/emailService";
 import Popup from 'reactjs-popup';
 import { toast } from "react-toastify";
 
@@ -54,6 +55,8 @@ const SingleAd = () => {
         }
 
         AdService.updateAd(requestOptions)
+
+        notifySubs("Ad update", "Ad for "+adData.Manufacturer+" "+adData.ModelName+" which you've been following has been updated.")
     }
 
     const deleteAd = () => {
@@ -67,6 +70,8 @@ const SingleAd = () => {
         setTimeout(() => {
             navigate('/ads')
         }, 1000);
+
+        notifySubs("Ad deletion", "Ad for "+adData.Manufacturer+" "+adData.ModelName+" which you've been following has been deleted.")
     }
 
     const isUserSubscribed = () => {
@@ -131,6 +136,22 @@ const SingleAd = () => {
 
         ReportService.addVisit(requestOptions);
     }
+
+    const notifySubs = (subject, message) => {
+        for(let sub of mailingList){
+            EmailService.sendEmail({
+                method: 'POST',
+                headers: { 'Content-Type' : 'application/json' },
+                body: JSON.stringify({
+                    From    : "ntpproj.com",
+                    To      : sub.Mail,
+                    Subject : subject,
+                    Message : message
+                })
+            })
+        }
+    }
+
 
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)

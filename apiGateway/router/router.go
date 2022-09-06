@@ -52,5 +52,8 @@ func HandleRequests() {
 	router.HandleFunc("/api/reports/popularManufacturers", handlers.GetPopularManufacturers).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/reports/newVisit", handlers.AddVisit).Methods("POST", "OPTIONS")
 
+	// Email routes
+	router.HandleFunc("/api/emails/sendEmail", handlers.SendEmail).Methods("POST", "OPTIONS")
+
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

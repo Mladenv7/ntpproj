@@ -25,7 +25,11 @@ var UserServiceBasePath, _ = roundRobinScheduler.New(
 )
 
 var ReportServiceBasePath, _ = roundRobinScheduler.New(
-	&url.URL{Host: "http://localhost:9080/api/reports"},
+	&url.URL{Host: "http://localhost:8084/api/reports"},
+)
+
+var EmailServiceBasePath, _ = roundRobinScheduler.New(
+	&url.URL{Host: "http://localhost:8085/api/emails"},
 )
 
 func DelegateResponse(response *http.Response, w http.ResponseWriter) {
