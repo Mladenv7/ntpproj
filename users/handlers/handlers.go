@@ -2,12 +2,15 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
 	data "github.com/Mladenv7/ntpproj/users/data"
 	"github.com/golang-jwt/jwt"
+	"github.com/gorilla/mux"
 )
 
 var jwtKey = "vnq7934vn834nv9rugfjq3epr4w08fgie083209j"
@@ -34,27 +37,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(id)
-	}
-}
-
-func BanUser(w http.ResponseWriter, r *http.Request) {
-	var toBeBanned string
-
-	json.NewDecoder(r.Body).Decode(&toBeBanned)
-
-	user := data.FindByEmail(toBeBanned)
-	if user.ID == 0 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	user.Banned = true
-
-	bannedId, err := data.Update(user)
-
-	if err == nil {
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(bannedId)
 	}
 }
 
@@ -121,4 +103,86 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(allUsers)
+}
+
+func GetById(w http.ResponseWriter, r *http.Request) {
+	pathVars := mux.Vars(r)
+
+	id, ok := pathVars["id"]
+	if !ok {
+		fmt.Println("id is missing in parameters")
+	}
+
+	parsedId, _ := strconv.ParseUint(id, 0, 64)
+
+	user := data.FindById(parsedId)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if user.ID != 0 {
+		json.NewEncoder(w).Encode(user)
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+	}
+}
+
+func CreateActivationToken(w http.ResponseWriter, r *http.Request) {
+	pathVars := mux.Vars(r)
+
+	email, ok := pathVars["email"]
+	if !ok {
+		fmt.Println("email is missing in parameters")
+	}
+
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := make(jwt.MapClaims)
+	claims["email"] = email
+	claims["exp"] = time.Now().Add(time.Hour * 24 * 2).Unix()
+	token.Claims = claims
+	tokenString, _ := token.SignedString([]byte(jwtKey))
+
+	json.NewEncoder(w).Encode(tokenString)
+}
+
+func ActivateUser(w http.ResponseWriter, r *http.Request) {
+	var email string
+
+	json.NewDecoder(r.Body).Decode(&email)
+
+	user := data.FindByEmail(email)
+
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	user.Active = true
+
+	activatedId, err := data.Update(user)
+
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(activatedId)
+	}
+}
+
+func BanUser(w http.ResponseWriter, r *http.Request) {
+	var toBeBanned string
+
+	json.NewDecoder(r.Body).Decode(&toBeBanned)
+
+	user := data.FindByEmail(toBeBanned)
+	if user.ID == 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	user.Banned = true
+
+	bannedId, err := data.Update(user)
+
+	if err == nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(bannedId)
+	}
 }

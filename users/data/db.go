@@ -18,6 +18,15 @@ func FindByEmail(email string) User {
 	return user
 }
 
+func FindById(id uint64) User {
+
+	var user User
+
+	Db.First(&user, id)
+
+	return user
+}
+
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err

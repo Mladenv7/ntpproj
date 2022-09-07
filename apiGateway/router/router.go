@@ -40,10 +40,13 @@ func HandleRequests() {
 
 	// User routes
 	router.HandleFunc("/api/users/register", handlers.Register).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/activate", handlers.ActivateUser).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/login", handlers.Login).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/loggedIn", handlers.GetLoggedIn).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/{id:[0-9]+}", handlers.GetUserById).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users", handlers.GetAllUsers).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users/ban", handlers.BanUser).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/generateActivationToken/{email}", handlers.GenerateActivationToken).Methods("GET", "OPTIONS")
 
 	// Report routes
 	router.HandleFunc("/api/reports/worstUsers", handlers.GetWorstUsers).Methods("GET", "OPTIONS")
@@ -54,6 +57,7 @@ func HandleRequests() {
 
 	// Email routes
 	router.HandleFunc("/api/emails/sendEmail", handlers.SendEmail).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/emails/sendEmailLink", handlers.SendEmailLink).Methods("POST", "OPTIONS")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

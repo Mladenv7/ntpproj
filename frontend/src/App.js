@@ -12,6 +12,7 @@ import MostVisited from './Components/reports/mostVisited';
 import PopularManufacturers from './Components/reports/popularManufacturers';
 import WorstUsers from './Components/reports/worstUsers';
 import AllUsers from './Components/users/allUsers';
+import ActivationPage from './Pages/activationPage';
 import BasePage from './Pages/basePage'
 import LoginPage from './Pages/loginPage'
 import RegistrationPage from './Pages/registrationPage';
@@ -37,6 +38,7 @@ const App = () => {
                 </Route>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/register' element={<RegistrationPage/>}/>
+                <Route path='/activation' element={<ActivationPage/>}/>
             </Routes>
         </div>
     );

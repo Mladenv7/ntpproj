@@ -15,6 +15,8 @@ const SingleAd = () => {
 
     const [adData, setAdData] = useState({ID: pathTokens[2]})
 
+    const [author, setAuthor] = useState({})
+
     const [drivetrain, setDrivetrain] = useState("")
 
     const [body, setBody] = useState("")
@@ -152,6 +154,19 @@ const SingleAd = () => {
         }
     }
 
+    const sendReportEmail = () => {
+        EmailService.sendEmail({
+            method: 'POST',
+            headers: { 'Content-Type' : 'application/json' },
+            body: JSON.stringify({
+                From    : "ntpproj.com",
+                To      : author.Email,
+                Subject : "Reported ad",
+                Message : "Your ad for "+adData?.Manufacturer+" "+adData?.ModelName+" has been reported for following reason: \n\n" + reportReason
+            })
+        })
+    }
+
 
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
@@ -162,6 +177,11 @@ const SingleAd = () => {
     useEffect(() => {
         setMailingList(mailingList)
     }, [mailingList])
+
+    useEffect(() => {
+        Userservice.getUserById(adData?.AuthorId, setAuthor)
+    }, [adData.AuthorId])
+    
     
     
     return (  
@@ -181,7 +201,7 @@ const SingleAd = () => {
                     </Row><br></br>
                     <Row>
                         <Col>
-                            <Button variant="primary" onClick={() => {sendReport(reportReason);close()}}>Submit</Button>
+                            <Button variant="primary" onClick={() => {sendReport(reportReason);sendReportEmail();close()}}>Submit</Button>
                         </Col>
                         <Col/>
                         <Col/>

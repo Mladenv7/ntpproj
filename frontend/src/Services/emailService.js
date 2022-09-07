@@ -5,6 +5,13 @@ const EmailService = {
         .then((responseJson) => {
         })
     },
+
+    sendEmailWithLink : (requestOptions) => {
+        fetch('http://localhost:8081/api/emails/sendEmailLink', requestOptions)
+        .then((response) => response.json())
+        .then((responseJson) => {
+        })
+    },
 }
 
 export default EmailService

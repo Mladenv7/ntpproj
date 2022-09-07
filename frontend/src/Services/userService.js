@@ -59,6 +59,30 @@ const UserService = {
         then((responseJson) => {
             
         })
+    },
+
+    getUserById : (id, setUser) => {
+        fetch('http://localhost:8081/api/users/'+id).
+        then((response) => response.json()).
+        then((responseJson) => {
+            setUser(responseJson)
+        })
+    },
+
+    activateUser : (requestOptions) => {
+        fetch('http://localhost:8081/api/users/activate', requestOptions).
+        then((response) => response.json()).
+        then((responseJson) => {
+
+        })
+    },
+
+    generateActivationToken : (email, setToken) => {
+        fetch('http://localhost:8081/api/users/generateActivationToken/'+email).
+        then((response) => response.json()).
+        then((responseJson) => {
+            setToken(responseJson)
+        })
     }
 }
 

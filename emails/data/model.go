@@ -5,4 +5,5 @@ type EmailInfo struct {
 	To      string
 	Subject string
 	Message string
+	Link    string
 }
