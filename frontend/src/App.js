@@ -7,7 +7,12 @@ import NewAds from './Components/ads/newAds';
 import ReportedAds from './Components/ads/reportedAds';
 import SingleAd from './Components/ads/singleAd';
 import ReportedComments from './Components/comments/reportedComments';
+import MostSubscribed from './Components/reports/mostSubscribed';
+import MostVisited from './Components/reports/mostVisited';
+import PopularManufacturers from './Components/reports/popularManufacturers';
+import WorstUsers from './Components/reports/worstUsers';
 import AllUsers from './Components/users/allUsers';
+import ActivationPage from './Pages/activationPage';
 import BasePage from './Pages/basePage'
 import LoginPage from './Pages/loginPage'
 import RegistrationPage from './Pages/registrationPage';
@@ -26,9 +31,14 @@ const App = () => {
                     <Route path='myAds' element={<MyAds/>}/>
                     <Route path='allUsers' element={<AllUsers/>}/>
                     <Route path="allRequests" element={<AllRequests/>}/>
+                    <Route path="worstUsers" element={<WorstUsers/>}/>
+                    <Route path='mostSubscribed' element={<MostSubscribed/>}/>
+                    <Route path='mostVisited' element={<MostVisited/>}/>
+                    <Route path='popularManufacturers' element={<PopularManufacturers/>}/>
                 </Route>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/register' element={<RegistrationPage/>}/>
+                <Route path='/activation' element={<ActivationPage/>}/>
             </Routes>
         </div>
     );

@@ -34,6 +34,11 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.CommentServiceBasePath.Next().Host+"/new", "application/json", r.Body)
 
 	if err != nil {
@@ -50,6 +55,11 @@ func UpdateComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.CommentServiceBasePath.Next().Host+"/update", "application/json", r.Body)
 
 	if err != nil {
@@ -63,6 +73,11 @@ func UpdateComment(w http.ResponseWriter, r *http.Request) {
 func DeleteComment(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
@@ -84,6 +99,14 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 
 func GetCommentsForAd(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	pathVars := mux.Vars(r)
 
@@ -105,6 +128,11 @@ func GetCommentsForAd(w http.ResponseWriter, r *http.Request) {
 func GetNrReportedComments(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 

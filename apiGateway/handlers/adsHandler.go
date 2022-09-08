@@ -50,6 +50,11 @@ func GetInactiveAdsPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	page := r.URL.Query().Get("page")
 	//size := r.URL.Query().Get("size")
 
@@ -71,6 +76,11 @@ func GetReportedAdsPage(w http.ResponseWriter, r *http.Request) {
 
 	page := r.URL.Query().Get("page")
 	//size := r.URL.Query().Get("size")
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/reported?page="+page, "application/json", r.Body)
 
@@ -104,6 +114,11 @@ func GetInactiveTotalPages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/inactive/totalPages", "application/json", r.Body)
 
 	if err != nil {
@@ -120,6 +135,11 @@ func GetReportedTotalPages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/reported/totalPages", "application/json", r.Body)
 
 	if err != nil {
@@ -132,6 +152,14 @@ func GetReportedTotalPages(w http.ResponseWriter, r *http.Request) {
 
 func GetSingleAd(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	pathVars := mux.Vars(r)
 
@@ -156,6 +184,11 @@ func CreateAd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/new", "application/json", r.Body)
 
 	if err != nil {
@@ -172,6 +205,11 @@ func UpdateAd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/update", "application/json", r.Body)
 
 	if err != nil {
@@ -185,6 +223,11 @@ func UpdateAd(w http.ResponseWriter, r *http.Request) {
 func DeleteAd(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
@@ -210,6 +253,11 @@ func SubscribeToAd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/subscribe", "application/json", r.Body)
 
 	if err != nil {
@@ -223,6 +271,11 @@ func SubscribeToAd(w http.ResponseWriter, r *http.Request) {
 func GetSubscribersForAd(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
@@ -245,6 +298,11 @@ func NewBoostRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.AdServiceBasePath.Next().Host+"/newBoostRequest", "application/json", r.Body)
 
 	if err != nil {
@@ -261,6 +319,11 @@ func GetAllBoostRequests(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.AdServiceBasePath.Next().Host + "/requests")
 
 	if err != nil {
@@ -274,6 +337,11 @@ func GetAllBoostRequests(w http.ResponseWriter, r *http.Request) {
 func DeleteBoostRequest(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 

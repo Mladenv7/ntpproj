@@ -23,7 +23,7 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/inactive/totalPages", handlers.GetInactiveTotalPages).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/reported", handlers.GetReportedAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/reported/totalPages", handlers.GetReportedTotalPages).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/ads/{id:[0-9]+}", handlers.GetSingleAd).Methods("GET")
+	router.HandleFunc("/api/ads/{id:[0-9]+}", handlers.GetSingleAd).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/ads/delete/{id:[0-9]+}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/api/ads/newBoostRequest", handlers.NewBoostRequest).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/requests", handlers.GetAllBoostRequests).Methods("GET", "OPTIONS")
@@ -33,17 +33,31 @@ func HandleRequests() {
 	// Comment routes
 	router.HandleFunc("/api/comments/new", handlers.CreateComment).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/comments/update", handlers.UpdateComment).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/comments/ofAd/{id:[0-9]+}", handlers.GetCommentsForAd).Methods("GET")
+	router.HandleFunc("/api/comments/ofAd/{id:[0-9]+}", handlers.GetCommentsForAd).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/comments/delete/{id:[0-9]+}", handlers.DeleteComment).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/api/comments/nrReports", handlers.GetNrReportedComments).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/comments", handlers.GetAllComments).Methods("GET", "OPTIONS")
 
 	// User routes
 	router.HandleFunc("/api/users/register", handlers.Register).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/activate", handlers.ActivateUser).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/login", handlers.Login).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/users/loggedIn", handlers.GetLoggedIn).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/{id:[0-9]+}", handlers.GetUserById).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users", handlers.GetAllUsers).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users/ban", handlers.BanUser).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/generateActivationToken/{email}", handlers.GenerateActivationToken).Methods("GET", "OPTIONS")
+
+	// Report routes
+	router.HandleFunc("/api/reports/worstUsers", handlers.GetWorstUsers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/visits", handlers.GetAllVisits).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/mostSubscribed", handlers.GetMostSubscribed).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/popularManufacturers", handlers.GetPopularManufacturers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/reports/newVisit", handlers.AddVisit).Methods("POST", "OPTIONS")
+
+	// Email routes
+	router.HandleFunc("/api/emails/sendEmail", handlers.SendEmail).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/emails/sendEmailLink", handlers.SendEmailLink).Methods("POST", "OPTIONS")
 
 	log.Fatal(http.ListenAndServe(":8081", router))
 }

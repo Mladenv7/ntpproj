@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import CommentService from "../../Services/commentService";
 import UserService from "../../Services/userService";
 import UserItem from "./userItem";
 
@@ -28,6 +29,7 @@ const AllUsers = () => {
 
     useEffect(() => {
       UserService.getAllUsers(setUsersData)
+      CommentService.getNrReported(setNrReports)
     }, [])
     
 
@@ -41,7 +43,7 @@ const AllUsers = () => {
                 if(user.ID === UserService.getLoggedIn().ID){
                     return
                 }
-                return <UserItem key={user.Username} userData={user} nrReports={nrReports[user.Username]} banCallback={banUser}/>
+                return <UserItem key={user.Username} userData={user} nrOfReports={nrReports[user.Username]} banCallback={banUser}/>
               })
             }
         </div>

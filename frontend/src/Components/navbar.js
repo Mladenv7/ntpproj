@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, NavDropdown } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -34,8 +34,14 @@ const AppNavbar = () => {
             {user?.Role === "Administrator" ? <Nav.Link href="/reportedAds">Reported ads</Nav.Link> : ""}
             {user?.Role === "Administrator" ? <Nav.Link href="/reportedComments">Reported comments</Nav.Link> : ""}
             {user?.Role === "Administrator" ? <Nav.Link href="/allRequests">Boost requests</Nav.Link> : ""}
-            {user?.Role === "Administrator" ? <Nav.Link href="/reports">Reports</Nav.Link> : ""}
+            {/* {user?.Role === "Administrator" ? <Nav.Link href="/reports">Reports</Nav.Link> : ""} */}
             {user?.Role === "Administrator" ? <Nav.Link href="/allUsers">Users</Nav.Link> : ""}
+            {user?.Role === "Administrator" ? <NavDropdown title="Reports" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="/worstUsers">Worst users</NavDropdown.Item>
+              <NavDropdown.Item href="/mostSubscribed">Most subscribed ads</NavDropdown.Item>
+              <NavDropdown.Item href="/mostVisited">Most visisted ads</NavDropdown.Item>
+              <NavDropdown.Item href="/popularManufacturers">Popular manufacturers</NavDropdown.Item>
+            </NavDropdown> : ""}
           </Nav>
           <div className='d-flex'>
           <Nav.Link disabled style={{color : "white"}}>{user?.Username}</Nav.Link>

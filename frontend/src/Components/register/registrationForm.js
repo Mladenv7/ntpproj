@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import UserService from "../../Services/userService";
+import EmailService from "../../Services/emailService";
+
 
 const RegistrationForm = () => {
 
@@ -18,6 +20,8 @@ const RegistrationForm = () => {
 
     const [email, setEmail] = useState("")
     
+    const [token, setToken] = useState("")
+
     const navigate = useNavigate()
 
     let requestOptions = {
@@ -46,13 +50,36 @@ const RegistrationForm = () => {
     const sendRegistrationData = () => {
         if(!checkInputs()) return
 
-        toast.success("You have successfully registered!")
-        toast.info("An email with activation link has been sent to your address.")
+        
+        UserService.generateActivationToken(email, setToken)
         UserService.registration(requestOptions)
+
 
         setTimeout(() => {
             navigate("/ads")
         }, 3000);
+    }
+
+    useEffect(() => {
+        
+        sendActivationEmail(token)
+        
+    }, [token])
+    
+
+    const sendActivationEmail = (token) => 
+    {
+        EmailService.sendEmailWithLink({
+            method: "POST",
+            headers: {},
+            body: JSON.stringify({
+                From    : "ntpproj.com",
+                To      : email,
+                Subject : "Activation link",
+                Message : "To activate your account, follow ",
+                Link : "http://localhost:3000/activation?token="+ token,
+            })
+        })
     }
 
     return (  

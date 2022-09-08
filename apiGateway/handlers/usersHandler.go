@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	util "github.com/Mladenv7/ntpproj/apiGateway/util"
+	"github.com/gorilla/mux"
 )
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +67,36 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.UserServiceBasePath.Next().Host)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	params := mux.Vars(r)
+	id, _ := strconv.ParseUint(params["id"], 10, 64)
+
+	response, err := http.Get(util.UserServiceBasePath.Next().Host + "/" + strconv.FormatUint(uint64(id), 10))
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)
@@ -80,7 +112,51 @@ func BanUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.UserServiceBasePath.Next().Host+"/ban", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func ActivateUser(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	response, err := http.Post(util.UserServiceBasePath.Next().Host+"/activate", "application/json", r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusGatewayTimeout)
+		return
+	}
+
+	util.DelegateResponse(response, w)
+}
+
+func GenerateActivationToken(w http.ResponseWriter, r *http.Request) {
+	util.SetupResponse(&w, r)
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	pathVars := mux.Vars(r)
+
+	email, ok := pathVars["email"]
+	if !ok {
+		fmt.Println("email is missing in parameters")
+	}
+
+	response, err := http.Get(util.UserServiceBasePath.Next().Host + "/generateActivationToken/" + email)
 
 	if err != nil {
 		w.WriteHeader(http.StatusGatewayTimeout)

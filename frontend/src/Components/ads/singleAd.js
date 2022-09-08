@@ -3,13 +3,19 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import AdService from "../../Services/adService";
 import Userservice from "../../Services/userService";
+import ReportService from "../../Services/reportService";
 import CommentsOfAd from "../comments/commentsOfAd";
+import EmailService from "../../Services/emailService";
 import Popup from 'reactjs-popup';
 import { toast } from "react-toastify";
 
 const SingleAd = () => {
 
-    const [adData, setAdData] = useState({})
+    let pathTokens = window.location.pathname.split("/")
+
+    const [adData, setAdData] = useState({ID: pathTokens[2]})
+
+    const [author, setAuthor] = useState({})
 
     const [drivetrain, setDrivetrain] = useState("")
 
@@ -33,8 +39,6 @@ const SingleAd = () => {
     
     const navigate = useNavigate()
 
-    let pathTokens = window.location.pathname.split("/")
-
     const sendUpdate = () => {
 
         adData.Drivetrain = drivetrain ? drivetrain : adData.Drivetrain
@@ -53,6 +57,8 @@ const SingleAd = () => {
         }
 
         AdService.updateAd(requestOptions)
+
+        notifySubs("Ad update", "Ad for "+adData.Manufacturer+" "+adData.ModelName+" which you've been following has been updated.")
     }
 
     const deleteAd = () => {
@@ -66,6 +72,8 @@ const SingleAd = () => {
         setTimeout(() => {
             navigate('/ads')
         }, 1000);
+
+        notifySubs("Ad deletion", "Ad for "+adData.Manufacturer+" "+adData.ModelName+" which you've been following has been deleted.")
     }
 
     const isUserSubscribed = () => {
@@ -115,14 +123,65 @@ const SingleAd = () => {
         toast.info("Your request will be reviewed by admin staff")
     }
 
+    const addVisit = () => {
+        let today = new Date()
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id : 0,
+                ad_id : Number(adData.ID),
+                timestamp : today.toISOString().split('T')[0],
+                username : user.Username,
+            })
+        }
+
+        ReportService.addVisit(requestOptions);
+    }
+
+    const notifySubs = (subject, message) => {
+        for(let sub of mailingList){
+            EmailService.sendEmail({
+                method: 'POST',
+                headers: { 'Content-Type' : 'application/json' },
+                body: JSON.stringify({
+                    From    : "ntpproj.com",
+                    To      : sub.Mail,
+                    Subject : subject,
+                    Message : message
+                })
+            })
+        }
+    }
+
+    const sendReportEmail = () => {
+        EmailService.sendEmail({
+            method: 'POST',
+            headers: { 'Content-Type' : 'application/json' },
+            body: JSON.stringify({
+                From    : "ntpproj.com",
+                To      : author.Email,
+                Subject : "Reported ad",
+                Message : "Your ad for "+adData?.Manufacturer+" "+adData?.ModelName+" has been reported for following reason: \n\n" + reportReason
+            })
+        })
+    }
+
+
     useEffect(() => {
         AdService.getSingleAd(pathTokens[2], setAdData)
         AdService.getMailingList(pathTokens[2], setMailingList)
+        if(user.Role !== "Administrator" && adData.AuthorId !== user.ID) addVisit();
     }, [])
     
     useEffect(() => {
         setMailingList(mailingList)
     }, [mailingList])
+
+    useEffect(() => {
+        Userservice.getUserById(adData?.AuthorId, setAuthor)
+    }, [adData.AuthorId])
+    
     
     
     return (  
@@ -142,7 +201,7 @@ const SingleAd = () => {
                     </Row><br></br>
                     <Row>
                         <Col>
-                            <Button variant="primary" onClick={() => {sendReport(reportReason);close()}}>Submit</Button>
+                            <Button variant="primary" onClick={() => {sendReport(reportReason);sendReportEmail();close()}}>Submit</Button>
                         </Col>
                         <Col/>
                         <Col/>
