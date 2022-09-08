@@ -27,6 +27,8 @@ const NewAd = () => {
 
     const [description, setDescription] = useState("")
 
+    const [image, setImage] = useState("")
+
     const [user, setUser] = useState(UserService.getLoggedIn())
 
 
@@ -46,6 +48,7 @@ const NewAd = () => {
             Drivetrain   : drivetrain,
             FuelType     : fuel,
             Body         : body,
+            Image        : image,
 
             Active       : false,
         })
@@ -141,6 +144,11 @@ const NewAd = () => {
                       
                         <Form.Label htmlFor="priceInput">Asking price in euros</Form.Label>
                         <Form.Control as="input" type="number"  step={0.01}  min={0} id="priceInput" onChange={(event) => {Number(setAskingPrice(event.target.value))}}/>
+                        </Col>
+                        <Col>
+                      
+                        <Form.Label htmlFor="priceInput">Select ad picture</Form.Label>
+                        <Form.Control as="input" type="file" id="imageInput" onChange={(event) => {setImage(event.target.value.split('\\')[2])}}/>
                         </Col>
                         <Col>
                         <Form.Label htmlFor="descriptionInput">Decription</Form.Label>

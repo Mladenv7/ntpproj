@@ -237,6 +237,7 @@ const SingleAd = () => {
             {adData.Reported && user?.Role === 'Standard' ? <p style={{color :'orange'}}>This ad has been reported</p> : ''}
             {adData.Reported && user?.Role === 'Administrator' ? <p style={{color :'orange'}}>Reported: {adData.Reported}</p> : ''}
             {!adData.Active && user?.Role === 'Standard' && user?.ID === adData.AuthorId ? <p style={{color :'blue'}}>This ad is awaiting approval</p> : ''}
+            <img  src={require("../../../../images/"+adData?.Image)} style={{width : "100%"}}/>
             <Container>
             <br></br>
                 <Row>

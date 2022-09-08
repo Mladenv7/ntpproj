@@ -11,7 +11,7 @@ const AdItem = ({adData, color}) => {
                 </h4></Col></Row>
             <Row>
             <Col>
-                {/* picture goes here */}
+                <img src={require("../../../../images/"+adData?.Image)} style={{width : "100%"}}/>
             </Col>
             <Col>
             <p><b>Model year</b> {adData.ModelYear}</p>
