@@ -12,6 +12,11 @@ func GetWorstUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.ReportServiceBasePath.Next().Host + "/worstUsers")
 
 	if err != nil {
@@ -25,6 +30,11 @@ func GetWorstUsers(w http.ResponseWriter, r *http.Request) {
 func GetMostSubscribed(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
@@ -44,6 +54,11 @@ func GetAllVisits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.ReportServiceBasePath.Next().Host + "/visits")
 
 	if err != nil {
@@ -60,6 +75,11 @@ func GetPopularManufacturers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.ReportServiceBasePath.Next().Host + "/popularManufacturers")
 
 	if err != nil {
@@ -73,6 +93,11 @@ func GetPopularManufacturers(w http.ResponseWriter, r *http.Request) {
 func AddVisit(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 

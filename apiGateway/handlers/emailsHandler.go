@@ -12,6 +12,11 @@ func SendEmail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Post(util.EmailServiceBasePath.Next().Host+"/sendEmail", "application/json", r.Body)
 
 	if err != nil {
@@ -25,6 +30,11 @@ func SendEmail(w http.ResponseWriter, r *http.Request) {
 func SendEmailLink(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 

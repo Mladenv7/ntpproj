@@ -50,12 +50,10 @@ const RegistrationForm = () => {
     const sendRegistrationData = () => {
         if(!checkInputs()) return
 
-        toast.success("You have successfully registered!")
-        toast.info("An email with activation link has been sent to your address.")
-
+        
         UserService.generateActivationToken(email, setToken)
         UserService.registration(requestOptions)
-        
+
 
         setTimeout(() => {
             navigate("/ads")
@@ -63,8 +61,9 @@ const RegistrationForm = () => {
     }
 
     useEffect(() => {
-        console.log(token);
+        
         sendActivationEmail(token)
+        
     }, [token])
     
 

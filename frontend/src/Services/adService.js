@@ -1,3 +1,5 @@
+import UserService from "./userService"
+
 const AdService = {
 
     getAllAds : (setAds) => {
@@ -17,6 +19,7 @@ const AdService = {
     },
 
     getInactiveAdsPage : (setAds, page, requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/inactive?page='+page, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -25,6 +28,7 @@ const AdService = {
     },
 
     getReportedAdsPage : (setAds, page, requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/reported?page='+page, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -42,6 +46,7 @@ const AdService = {
     },
 
     getInactiveTotalPages : (setTotalPages, setPageNumbers, requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/inactive/totalPages', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -51,6 +56,7 @@ const AdService = {
     },
 
     getReportedTotalPages : (setTotalPages, setPageNumbers, requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/reported/totalPages', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -60,6 +66,7 @@ const AdService = {
     },
 
     sendAd : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/new', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -68,6 +75,7 @@ const AdService = {
     },
 
     updateAd : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/update', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -76,7 +84,7 @@ const AdService = {
     },
 
     getSingleAd : (id, setAdData) => {
-        fetch('http://localhost:8081/api/ads/'+id)
+        fetch('http://localhost:8081/api/ads/'+id, {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setAdData(responseJson)
@@ -84,6 +92,7 @@ const AdService = {
     },
 
     deleteAd : (id, requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/delete/'+id, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -92,7 +101,7 @@ const AdService = {
     },
 
     getMailingList : (id, setSubscribers) => {
-        fetch('http://localhost:8081/api/ads/subscribers/'+id)
+        fetch('http://localhost:8081/api/ads/subscribers/'+id, {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setSubscribers(responseJson)
@@ -100,6 +109,7 @@ const AdService = {
     },
 
     subscribe : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/subscribe', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -107,7 +117,7 @@ const AdService = {
     },
 
     getAllBoostRequests : (setRequests) => {
-        fetch('http://localhost:8081/api/ads/requests')
+        fetch('http://localhost:8081/api/ads/requests', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setRequests(responseJson)
@@ -115,6 +125,7 @@ const AdService = {
     },
 
     sendBoostRequest : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/newBoostRequest', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -122,6 +133,7 @@ const AdService = {
     },
 
     deleteBoostRequest : (requestOptions, id) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/ads/deleteBoostRequest/'+id, requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {
@@ -129,7 +141,7 @@ const AdService = {
     },
 
     getBoostedAds : (setBoosted) => {
-        fetch('http://localhost:8081/api/ads/boosted')
+        fetch('http://localhost:8081/api/ads/boosted', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setBoosted(responseJson)

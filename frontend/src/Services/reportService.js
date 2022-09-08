@@ -1,7 +1,9 @@
+import UserService from "./userService"
+
 const ReportService = {
 
     getWorstUsers : (setWorstUsers) => {
-        fetch('http://localhost:8081/api/reports/worstUsers')
+        fetch('http://localhost:8081/api/reports/worstUsers', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setWorstUsers(responseJson)
@@ -9,7 +11,7 @@ const ReportService = {
     },
 
     getMostSubscribed : (setMostSubscribed) => {
-        fetch('http://localhost:8081/api/reports/mostSubscribed')
+        fetch('http://localhost:8081/api/reports/mostSubscribed', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setMostSubscribed(responseJson)
@@ -17,7 +19,7 @@ const ReportService = {
     },
 
     getPopularManufacturers : (setManufacturers) => {
-        fetch('http://localhost:8081/api/reports/popularManufacturers')
+        fetch('http://localhost:8081/api/reports/popularManufacturers', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setManufacturers(responseJson)
@@ -25,7 +27,7 @@ const ReportService = {
     },
 
     getMostVisited : (setVisits) => {
-        fetch('http://localhost:8081/api/reports/visits')
+        fetch('http://localhost:8081/api/reports/visits', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}})
         .then((response) => response.json())
         .then((responseJson) => {
             setVisits(responseJson)
@@ -33,6 +35,7 @@ const ReportService = {
     },
 
     addVisit : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/reports/newVisit', requestOptions)
         .then((response) => response.json())
         .then((responseJson) => {

@@ -67,6 +67,11 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	response, err := http.Get(util.UserServiceBasePath.Next().Host)
 
 	if err != nil {
@@ -80,6 +85,11 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 func GetUserById(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
@@ -99,6 +109,11 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 func BanUser(w http.ResponseWriter, r *http.Request) {
 	util.SetupResponse(&w, r)
 	if r.Method == "OPTIONS" {
+		return
+	}
+
+	if !util.AuthorizeUser([]string{"Administrator"}, r) {
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 

@@ -9,8 +9,8 @@ const UserObserver = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        if(user?.Active === false) localStorage.removeItem("loggedIn")
         setUser(user)
-
         if(!user && window.location.pathname !== '/ads') navigate("/ads")
     }, [user])
     

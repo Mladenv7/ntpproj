@@ -1,13 +1,15 @@
 package util
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 
-	"github.com/golang-jwt/jwt"
 	roundRobinScheduler "github.com/hlts2/round-robin"
+
+	userData "github.com/Mladenv7/ntpproj/users/data"
 )
 
 var jwtKey = "vnq7934vn834nv9rugfjq3epr4w08fgie083209j"
@@ -47,13 +49,28 @@ func SetupResponse(w *http.ResponseWriter, r *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-func GetTokenFromRequest(r *http.Request) (*jwt.Token, error) {
-	cookie := r.Header.Values("Authorization")
-	tokenString := strings.Split(cookie[0], "Bearer ")[1]
+func AuthorizeUser(roles []string, r *http.Request) bool {
 
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return []byte(jwtKey), nil
-	})
+	client := http.Client{}
+	request, err := http.NewRequest("GET", UserServiceBasePath.Next().Host+"/loggedIn", nil)
+	request.Header.Set("Authorization", r.Header.Values("Authorization")[0])
 
-	return token, err
+	if err != nil {
+		fmt.Println("error happened")
+		return false
+	}
+
+	response, err := client.Do(request)
+
+	var user userData.User
+
+	json.NewDecoder(response.Body).Decode(&user)
+
+	for _, role := range roles {
+		if string(user.Role) == role {
+			return true
+		}
+	}
+
+	return false
 }

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 const UserService = {
 
     getAllUsers : (setUsers) => {
-        fetch('http://localhost:8081/api/users').
+        fetch('http://localhost:8081/api/users', {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}}).
         then((response) => response.json()).
         then((responseJson) => {
             setUsers(responseJson.map(user => {user.Password = ''; return user}))
@@ -11,6 +11,7 @@ const UserService = {
     },
 
     banUser : (requestOptions) => {
+        requestOptions.headers.Authorization = "Bearer "+UserService.getToken()
         fetch('http://localhost:8081/api/users/ban', requestOptions).
         then((response) => response.json()).
         then((responseJson) => {      
@@ -48,6 +49,10 @@ const UserService = {
         return JSON.parse(localStorage.getItem("loggedIn"))
     },
 
+    getToken : () => {
+        return JSON.parse(localStorage.getItem("token"))
+    },
+
     logout: () => {
         localStorage.removeItem("loggedIn")
         localStorage.removeItem("token")
@@ -55,14 +60,23 @@ const UserService = {
 
     registration : (requestOptions) => {
         fetch('http://localhost:8081/api/users/register', requestOptions).
-        then((response) => response.json()).
-        then((responseJson) => {
-            
+        then((response) => {      
+            if(response.status == 400){
+                toast.error("This email is already taken!")
+            }
+            else{
+                toast.success("You have successfully registered!")
+                toast.info("An email with activation link has been sent to your address.")
+            }
+
+            return response.json()}).
+        catch((error) => {
+            console.log(error);
         })
     },
 
     getUserById : (id, setUser) => {
-        fetch('http://localhost:8081/api/users/'+id).
+        fetch('http://localhost:8081/api/users/'+id, {method: "GET", headers : {"Authorization": "Bearer "+UserService.getToken()}}).
         then((response) => response.json()).
         then((responseJson) => {
             setUser(responseJson)

@@ -23,7 +23,7 @@ func HandleRequests() {
 	router.HandleFunc("/api/ads/inactive/totalPages", handlers.GetInactiveTotalPages).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/reported", handlers.GetReportedAdsPage).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/reported/totalPages", handlers.GetReportedTotalPages).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/ads/{id:[0-9]+}", handlers.GetSingleAd).Methods("GET")
+	router.HandleFunc("/api/ads/{id:[0-9]+}", handlers.GetSingleAd).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/ads/delete/{id:[0-9]+}", handlers.DeleteAd).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/api/ads/newBoostRequest", handlers.NewBoostRequest).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/ads/requests", handlers.GetAllBoostRequests).Methods("GET", "OPTIONS")
@@ -33,7 +33,7 @@ func HandleRequests() {
 	// Comment routes
 	router.HandleFunc("/api/comments/new", handlers.CreateComment).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/comments/update", handlers.UpdateComment).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/comments/ofAd/{id:[0-9]+}", handlers.GetCommentsForAd).Methods("GET")
+	router.HandleFunc("/api/comments/ofAd/{id:[0-9]+}", handlers.GetCommentsForAd).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/comments/delete/{id:[0-9]+}", handlers.DeleteComment).Methods("DELETE", "OPTIONS")
 	router.HandleFunc("/api/comments/nrReports", handlers.GetNrReportedComments).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/comments", handlers.GetAllComments).Methods("GET", "OPTIONS")
