@@ -45,6 +45,7 @@ type Ad struct {
 	ModelName    string
 	ModelYear    uint16
 	EngineVolume uint16 //cubic centimetres
+	Image        string
 	Drivetrain   Drivetrain
 	FuelType     FuelType
 	Body         BodyType
