@@ -25,14 +25,14 @@ const BoostRequestItem = ({requestData, deleteCallback}) => {
         }
         
         AdService.updateAd(requestOptionsAd)
-        AdService.deleteBoostRequest(requestOptions, requestData.AdId)
+        AdService.deleteBoostRequest(requestOptions, requestData.ID)
         
         deleteCallback()
         toast.success("Ad successfully boosted!")
     }
 
     const denyRequest = () => {
-        AdService.deleteBoostRequest(requestOptions, requestData.AdId)
+        AdService.deleteBoostRequest(requestOptions, requestData.ID)
         deleteCallback()
         toast.success("Ad boost successfully denied!")
     }

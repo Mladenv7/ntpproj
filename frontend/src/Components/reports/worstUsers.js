@@ -17,8 +17,10 @@ const WorstUsers = () => {
         <div style={{height: "60vh", overflowY: "scroll", overflowX: "hidden"}}>
             <Table striped bordered hover >
                 <thead>
+                <tr>
                 <th>Username</th>
                 <th># of reported comments</th>
+                </tr>
                 </thead>
                 <tbody>
                     {userData?.map(user => {

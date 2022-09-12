@@ -187,7 +187,6 @@ const SingleAd = () => {
     return (  
         <div name="adData" style={{height: "60vh", overflowY : "scroll", overflowX: "hidden"}}>
             <h2>{adData.Manufacturer+" "+adData.ModelName}</h2>  
-            
             {!adData.Reported && adData.AuthorId !== user?.ID && user?.Role === "Standard" ? <Popup trigger={<Button variant="outline-warning">Report this ad</Button>}
              modal nested>    
             {close => (
@@ -237,7 +236,7 @@ const SingleAd = () => {
             {adData.Reported && user?.Role === 'Standard' ? <p style={{color :'orange'}}>This ad has been reported</p> : ''}
             {adData.Reported && user?.Role === 'Administrator' ? <p style={{color :'orange'}}>Reported: {adData.Reported}</p> : ''}
             {!adData.Active && user?.Role === 'Standard' && user?.ID === adData.AuthorId ? <p style={{color :'blue'}}>This ad is awaiting approval</p> : ''}
-            <img  src={require("../../../../images/"+adData?.Image)} style={{width : "100%"}}/>
+            {adData.Image ? <img  src={require("../../../../images/"+adData?.Image)} style={{width : "100%"}}/> : ''}
             <Container>
             <br></br>
                 <Row>

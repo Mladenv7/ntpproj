@@ -56,13 +56,15 @@ const RegistrationForm = () => {
 
 
         setTimeout(() => {
-            navigate("/ads")
+            // navigate("/ads")
         }, 3000);
     }
 
     useEffect(() => {
-        
-        sendActivationEmail(token)
+        console.log(token);
+        if(token){
+            sendActivationEmail(token)
+        }
         
     }, [token])
     
@@ -71,7 +73,7 @@ const RegistrationForm = () => {
     {
         EmailService.sendEmailWithLink({
             method: "POST",
-            headers: {},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 From    : "ntpproj.com",
                 To      : email,

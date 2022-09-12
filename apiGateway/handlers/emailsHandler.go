@@ -12,10 +12,10 @@ func SendEmail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
+	// if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+	// 	w.WriteHeader(http.StatusUnauthorized)
+	// 	return
+	// }
 
 	response, err := http.Post(util.EmailServiceBasePath.Next().Host+"/sendEmail", "application/json", r.Body)
 
@@ -33,10 +33,10 @@ func SendEmailLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
+	// if !util.AuthorizeUser([]string{"Administrator", "Standard"}, r) {
+	// 	w.WriteHeader(http.StatusUnauthorized)
+	// 	return
+	// }
 
 	response, err := http.Post(util.EmailServiceBasePath.Next().Host+"/sendEmailLink", "application/json", r.Body)
 

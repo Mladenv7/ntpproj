@@ -6,9 +6,9 @@ const AdItem = ({adData, color}) => {
     return (  
         <article style={{backgroundColor : color}}>
             <Row><Col>
-                <h4>
+                <h5>
                 {UserService.getLoggedIn() ? <Link to={"/ads/"+adData.ID}>{adData.Manufacturer+" "+adData.ModelName}</Link> : adData.Manufacturer+" "+adData.ModelName}
-                </h4></Col></Row>
+                </h5></Col></Row>
             <Row>
             <Col>
                 <img src={require("../../../../images/"+adData?.Image)} style={{width : "100%"}}/>
